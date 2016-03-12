@@ -1,15 +1,14 @@
-// AAA cell
-// https://github.com/Mechabotix/OpenSCAD
+HEIGHT = 44.5;
+HEIGHT_BODY = 44.5;
+DIAMETER_BODY = 10.4;
+BORDER_RADIUS_BODY = 0.2;
+
+DIAMETER_BASE = 6;
+BORDER_RADIUS_BASE = 0.3;
+
 
 module RenderCell()
 {
-//Top of cell is origin
-totalHeight = 44.5; //Height of cell from spec (Max: 44.5 Min 43.3)
-
-bodyDia = 10.4; //Diameter from spec (Max: 10.5 not including label)
-bodyChamferRad = 0.5;
-baseDia = 6;
-baseFilletRad = 0.3;
 
 nippleHeight = 0.8; //Height from spec (Min: 0.8)
 nippleDia = 3; //Diameter from spec (Max: 3.8)
@@ -72,51 +71,51 @@ translate([0,0,-nippleHeight])
         circle(r = nippleFilletRad, $fn = 100);
 
 //Top face of main body
-translate([0,0,-(nippleHeight + bodyChamferRad)])
+translate([0,0,-(nippleHeight + BORDER_RADIUS_BODY)])
     cylinder(
-        h = bodyChamferRad, 
-        d = (bodyDia - (2 * bodyChamferRad)),
+        h = BORDER_RADIUS_BODY, 
+        d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
         $fn = 100);
         
 //Body top shoulder
-translate([0,0,-(nippleHeight + bodyChamferRad)])
+translate([0,0,-(nippleHeight + BORDER_RADIUS_BODY)])
     rotate_extrude(convexity = 10, $fn = 100)
-    translate([(bodyDia/2)-bodyChamferRad, 0, 0])
-        circle(r = bodyChamferRad, $fn = 100);
+    translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
+        circle(r = BORDER_RADIUS_BODY, $fn = 100);
 
 //Main body cylinder
-translate([0,0,-(totalHeight - bodyChamferRad)])
+translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
     cylinder(
-        h = (totalHeight - (nippleHeight + (2* bodyChamferRad))),
-        d = bodyDia,
+        h = (HEIGHT_BODY - (nippleHeight + (2* BORDER_RADIUS_BODY))),
+        d = DIAMETER_BODY,
         $fn = 100);
         
 //Body bottom shoulder
-translate([0,0,-(totalHeight - bodyChamferRad)])
+translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
     rotate_extrude(convexity = 10, $fn = 100)
-    translate([(bodyDia/2)-bodyChamferRad, 0, 0])
-        circle(r = bodyChamferRad, $fn = 100);
+    translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
+        circle(r = BORDER_RADIUS_BODY, $fn = 100);
         
 //Bottom face of body
-translate([0,0,-(totalHeight)])
+translate([0,0,-(HEIGHT_BODY)])
     cylinder(
-        h = bodyChamferRad, 
-        d = (bodyDia - (2 * bodyChamferRad)),
+        h = BORDER_RADIUS_BODY, 
+        d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
         $fn = 100);
 
 //Base cylinder
 color("LightGrey")
-translate([0,0,-(totalHeight + baseFilletRad)])
+translate([0,0,-(HEIGHT_BODY + BORDER_RADIUS_BASE)])
     cylinder(
-        h = baseFilletRad, 
-        d = (baseDia - (2 * baseFilletRad)),
+        h = BORDER_RADIUS_BASE, 
+        d = (DIAMETER_BASE - (2 * BORDER_RADIUS_BASE)),
         $fn = 100);
 
 //Base shoulder
 color("LightGrey")
-translate([0,0,-(totalHeight)])
+translate([0,0,-(HEIGHT_BODY)])
     rotate_extrude(convexity = 10, $fn = 100)
-    translate([(baseDia/2)-baseFilletRad, 0, 0])
-        circle(r = baseFilletRad, $fn = 100);
+    translate([(DIAMETER_BASE/2)-BORDER_RADIUS_BASE, 0, 0])
+        circle(r = BORDER_RADIUS_BASE, $fn = 100);
 }
 RenderCell();
