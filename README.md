@@ -5,7 +5,7 @@ Código del curso "Refactoring a patrones" de [https://geekshubsacademy.com](htt
 ## Clases
 - Clase 1: Mecánicas y OpenScad
  - Clase: https://github.com/TomHodson/Raspberry-Pi-OpenSCAD-Model --> https://github.com/curso-refactoring/Raspberry-Pi-OpenSCAD-Model
- - Ejercicio iphone6pluscase.scad: https://github.com/rmd6502/openscad
+ - Ejercicio AAACell.scad: https://github.com/Mechabotix/OpenSCAD
 
 
 - Clase 2: De procedural a objetos
