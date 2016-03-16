@@ -1,4 +1,3 @@
-HEIGHT = 44.5;
 HEIGHT_BODY = 44.5;
 DIAMETER_BODY = 10.4;
 BORDER_RADIUS_BODY = 0.2;
@@ -6,79 +5,75 @@ BORDER_RADIUS_BODY = 0.2;
 DIAMETER_BASE = 6;
 BORDER_RADIUS_BASE = 0.3;
 
+HEIGHT_NIPPLE = 0.8;
+DIAMETER_NIPPLE = 3;
+BORDER_NIPPLE = 0.2;
+DIAMETER_BASE_NIPPLE = 6;
 
 module RenderCell()
 {
-
-nippleHeight = 0.8; //Height from spec (Min: 0.8)
-nippleDia = 3; //Diameter from spec (Max: 3.8)
-nippleFilletRad = 0.2;
-nippleShoulderDia = 6;
-
-labelThickness = 0.005; //Thickness of plastic
-
 //Top face of nipple
 color("LightGrey")
-translate([0,0,-nippleFilletRad])
+translate([0,0,-BORDER_NIPPLE])
     cylinder(
-        h = nippleFilletRad, 
-        d = (nippleDia - (2 * nippleFilletRad)),
+        h = BORDER_NIPPLE, 
+        d = (DIAMETER_NIPPLE - (2 * BORDER_NIPPLE)),
         $fn = 100);
         
 //First shoulder
 color("LightGrey")
-translate([0,0,-nippleFilletRad])
+translate([0,0,-BORDER_NIPPLE])
     rotate_extrude(convexity = 10, $fn = 100)
-    translate([(nippleDia/2)-nippleFilletRad, 0, 0])
-        circle(r = nippleFilletRad, $fn = 100);
+    translate([(DIAMETER_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
+        circle(r = BORDER_NIPPLE, $fn = 100);
 
 //Main nipple cylinder
 color("LightGrey")
-translate([0,0,-(nippleHeight - nippleFilletRad)])
+translate([0,0,-(HEIGHT_NIPPLE - BORDER_NIPPLE)])
     cylinder(
-        h = (nippleHeight - (nippleFilletRad + nippleFilletRad)),
-        d = nippleDia,
+        h = (HEIGHT_NIPPLE - (BORDER_NIPPLE + BORDER_NIPPLE)),
+        d = DIAMETER_NIPPLE,
         $fn = 100);
 
 //Main nipple cylinder; base fillet
 color("LightGrey")
 difference()
 {
-    translate([0,0,nippleFilletRad - nippleHeight])
+    translate([0,0,BORDER_NIPPLE - HEIGHT_NIPPLE])
         rotate_extrude(convexity = 10, $fn = 100)
-        translate([(nippleDia/2), 0, 0])
-            square((nippleFilletRad),(nippleFilletRad));
+        translate([(DIAMETER_NIPPLE/2), 0, 0])
+            square((BORDER_NIPPLE),(BORDER_NIPPLE));
 
-    translate([0,0,(2 * nippleFilletRad) - nippleHeight])
+    translate([0,0,(2 * BORDER_NIPPLE) - HEIGHT_NIPPLE])
         rotate_extrude(convexity = 10, $fn = 100)
-        translate([(nippleDia/2)+ nippleFilletRad, 0, 0])
-            circle(r = nippleFilletRad, $fn = 100);
+        translate([(DIAMETER_NIPPLE/2)+ BORDER_NIPPLE, 0, 0])
+            circle(r = BORDER_NIPPLE, $fn = 100);
 }
         
 //Nipple shoulder cylinder
 color("LightGrey")
-translate([0,0,-nippleHeight])
+translate([0,0,-HEIGHT_NIPPLE])
     cylinder(
-        h = nippleFilletRad,
-        d = nippleShoulderDia - (2 * nippleFilletRad),
+        h = BORDER_NIPPLE,
+        d = DIAMETER_BASE_NIPPLE - (2 * BORDER_NIPPLE),
         $fn = 100);
         
 //Nipple base shoulder
 color("LightGrey")
-translate([0,0,-nippleHeight])
+translate([0,0,-HEIGHT_NIPPLE])
     rotate_extrude(convexity = 10, $fn = 100)
-    translate([(nippleShoulderDia/2)-nippleFilletRad, 0, 0])
-        circle(r = nippleFilletRad, $fn = 100);
+    translate([(DIAMETER_BASE_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
+        circle(r = BORDER_NIPPLE, $fn = 100);
 
 //Top face of main body
-translate([0,0,-(nippleHeight + BORDER_RADIUS_BODY)])
+translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
     cylinder(
         h = BORDER_RADIUS_BODY, 
         d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
         $fn = 100);
         
 //Body top shoulder
-translate([0,0,-(nippleHeight + BORDER_RADIUS_BODY)])
+translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
     rotate_extrude(convexity = 10, $fn = 100)
     translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
         circle(r = BORDER_RADIUS_BODY, $fn = 100);
@@ -86,7 +81,7 @@ translate([0,0,-(nippleHeight + BORDER_RADIUS_BODY)])
 //Main body cylinder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
     cylinder(
-        h = (HEIGHT_BODY - (nippleHeight + (2* BORDER_RADIUS_BODY))),
+        h = (HEIGHT_BODY - (HEIGHT_NIPPLE + (2* BORDER_RADIUS_BODY))),
         d = DIAMETER_BODY,
         $fn = 100);
         
