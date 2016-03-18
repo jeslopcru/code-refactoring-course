@@ -2,6 +2,7 @@ include <constants.scad>;
 DIAMETER_BASE = 6;
 DIAMETER_OUTER_RING = 0.6;
 THICKNESS = 0.3; 
+CONVEXITY = 10;
 
 module base()
 {
@@ -18,7 +19,7 @@ module surface()
     
     color(GREY)
         translate(offset)
-            cylinder(h = THICKNESS, d = diameter_total, $fn = 100);
+            cylinder(h = THICKNESS, d = diameter_total, $fn = FINE);
 }
 
 module border()
@@ -31,9 +32,9 @@ module border()
     
     color(GREY)
         translate(offset_base)
-            rotate_extrude(convexity = 10, $fn = 100)
+            rotate_extrude(convexity = CONVEXITY, $fn = FINE)
                 translate(offset_border)
-                    circle(r = THICKNESS, $fn = 100);
+                    circle(r = THICKNESS, $fn = FINE);
 }
 
 base();
