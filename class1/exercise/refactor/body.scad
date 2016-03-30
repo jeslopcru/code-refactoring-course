@@ -16,7 +16,7 @@ translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
         
 //Body top shoulder
 translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
-    rotate_extrude(convexity = 10, $fn = FINE)
+    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
     translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
         circle(r = BORDER_RADIUS_BODY, $fn = FINE);
 
@@ -29,7 +29,7 @@ translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
         
 //Body bottom shoulder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
-    rotate_extrude(convexity = 10, $fn = FINE)
+    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
     translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
         circle(r = BORDER_RADIUS_BODY, $fn = FINE);
         
