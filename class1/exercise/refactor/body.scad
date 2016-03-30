@@ -48,19 +48,25 @@ module main_cylinder()
             $fn = FINE);
 }
 
-
+module bottom_shoulder()
+{
+    position_ring = [0,0,main_position_z()];
+    
+    position_circle_x = radius(DIAMETER_BODY)-BORDER_RADIUS_BODY;
+    posision_circle = [position_circle_x, 0, 0];
+    
+    translate(position_ring)
+        rotate_extrude(convexity = CONVEXITY, $fn = FINE)
+            translate(posision_circle)
+                circle(r = BORDER_RADIUS_BODY, $fn = FINE);
+}
 module body()
 { 
     top_surface();
     top_shoulder();
     main_cylinder();
-        
-      
-//Body bottom shoulder
-translate([0,0,main_position_z()])
-    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-    translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
-        circle(r = BORDER_RADIUS_BODY, $fn = FINE);
+    bottom_shoulder();
+     
         
 //Bottom face of body
 translate([0,0,-(HEIGHT_BODY)])
