@@ -9,9 +9,9 @@ HEIGHT_COVER = 2 * BORDER_RADIUS_BODY;
 function top_position_z () = -(HEIGHT_NIPPLE + BORDER_RADIUS_BODY);
 function main_position_z() = -(HEIGHT_BODY - BORDER_RADIUS_BODY);
 
-module top_surface()
+module surface(position_z)
 {
-    position = [0,0,top_position_z()];
+    position = [0,0,position_z];
     diameter_base = DIAMETER_BODY - HEIGHT_COVER;
     
     translate(position)
@@ -34,7 +34,7 @@ module shoulder(position_z)
                 circle(r = BORDER_RADIUS_BODY, $fn = FINE); 
 }
 
-module main_cylinder()
+module main()
 {    
     position = [0,0,main_position_z()];
     
@@ -47,27 +47,26 @@ module main_cylinder()
             $fn = FINE);
 }
 
-module bottom_surface()
-{
-    position = [0,0,-HEIGHT_BODY];
-    diameter = DIAMETER_BODY - HEIGHT_COVER;
 
-    translate(position)
-        cylinder(
-            h = BORDER_RADIUS_BODY, 
-            d = diameter,
-            $fn = FINE);    
+module top()
+{
+    top_position_z = top_position_z();
+    
+    surface(top_position_z);
+    shoulder(top_position_z); 
+}
+
+module bottom()
+{
+    surface(-HEIGHT_BODY);
+    shoulder(main_position_z()); 
 }
 
 module body()
 { 
-    top_surface();
-    shoulder(top_position_z()); 
-  
-    main_cylinder();
-    
-    shoulder(main_position_z()); 
-    bottom_surface();
+    top();
+    main();
+    bottom();
 }
 
 body();
