@@ -13,17 +13,25 @@ module top_little()
                 d = (DIAMETER_NIPPLE - (2 * BORDER_NIPPLE)),
                 $fn = FINE);
 }
+
+module shoulder_top_little()
+{
+    position_ring = [0,0,-BORDER_NIPPLE];
+    
+    posicion_circle_x = radius(DIAMETER_NIPPLE)-BORDER_NIPPLE;
+    position_circle = [posicion_circle_x, 0, 0];
+    
+    color(GREY)
+    translate(position_ring)
+        rotate_extrude(convexity = CONVEXITY, $fn = FINE)
+        translate(position_circle)
+            circle(r = BORDER_NIPPLE, $fn = FINE);  
+}
 module nipple()
 {
     top_little();
+    shoulder_top_little();
     
-    //First shoulder
-color(GREY)
-translate([0,0,-BORDER_NIPPLE])
-    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-    translate([(DIAMETER_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
-        circle(r = BORDER_NIPPLE, $fn = FINE);
-
 //Main nipple cylinder
 color(GREY)
 translate([0,0,-(HEIGHT_NIPPLE - BORDER_NIPPLE)])

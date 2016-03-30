@@ -27,7 +27,7 @@ module shoulder(position_z)
     
     position_circle_x = radius(DIAMETER_BODY)-BORDER_RADIUS_BODY;
     posision_circle = [position_circle_x, 0, 0];
-    
+
     translate(position_ring)
         rotate_extrude(convexity = CONVEXITY, $fn = FINE)
             translate(posision_circle)
@@ -39,7 +39,7 @@ module main()
     position = [0,0,main_position_z()];
     
     heigh_main = HEIGHT_BODY - (HEIGHT_NIPPLE + HEIGHT_COVER);
-   
+
     translate(position)
         cylinder(
             h = heigh_main,
