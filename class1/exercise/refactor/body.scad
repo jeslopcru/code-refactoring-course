@@ -8,10 +8,14 @@ module top_surface()
 {
     position_z = -(HEIGHT_NIPPLE + BORDER_RADIUS_BODY);
     position = [0,0,position_z];
+    
+    correction_diameter_base = (2 * BORDER_RADIUS_BODY);
+    diameter_base = DIAMETER_BODY - correction_diameter_base;
+
     translate(position)
     cylinder(
         h = BORDER_RADIUS_BODY, 
-        d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
+        d = diameter_base,
         $fn = FINE);
 }
 
