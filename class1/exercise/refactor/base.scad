@@ -1,8 +1,8 @@
 include <constants.scad>;
+
 DIAMETER_BASE = 6;
 DIAMETER_OUTER_RING = 0.6;
 THICKNESS = 0.3; 
-CONVEXITY = 10;
 
 module base()
 {
