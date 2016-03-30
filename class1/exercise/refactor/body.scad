@@ -22,35 +22,9 @@ module top_surface()
         $fn = FINE);
 }
 
-module top_shoulder()
+module shoulder(position_z)
 {
-    position_ring = [0,0,top_position_z()];
-    
-    position_circle_x = radius(DIAMETER_BODY)-BORDER_RADIUS_BODY;
-    position_circle = [position_circle_x, 0, 0];
-    
-    translate(position_ring)
-        rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-            translate(position_circle)
-                circle(r = BORDER_RADIUS_BODY, $fn = FINE); 
-}
-
-module main_cylinder()
-{
-    heigh_main = HEIGHT_BODY - (HEIGHT_NIPPLE + HEIGHT_TOP);
-    
-    position = [0,0,main_position_z()];
-    
-    translate(position)
-        cylinder(
-            h = heigh_main,
-            d = DIAMETER_BODY,
-            $fn = FINE);
-}
-
-module bottom_shoulder()
-{
-    position_ring = [0,0,main_position_z()];
+    position_ring = [0,0,position_z];
     
     position_circle_x = radius(DIAMETER_BODY)-BORDER_RADIUS_BODY;
     posision_circle = [position_circle_x, 0, 0];
@@ -58,15 +32,30 @@ module bottom_shoulder()
     translate(position_ring)
         rotate_extrude(convexity = CONVEXITY, $fn = FINE)
             translate(posision_circle)
-                circle(r = BORDER_RADIUS_BODY, $fn = FINE);
+                circle(r = BORDER_RADIUS_BODY, $fn = FINE); 
 }
+
+module main_cylinder()
+{    
+    position = [0,0,main_position_z()];
+    
+    heigh_main = HEIGHT_BODY - (HEIGHT_NIPPLE + HEIGHT_TOP);
+   
+    translate(position)
+        cylinder(
+            h = heigh_main,
+            d = DIAMETER_BODY,
+            $fn = FINE);
+}
+
+
 module body()
 { 
     top_surface();
-    top_shoulder();
+    shoulder(top_position_z()); 
+    
     main_cylinder();
-    bottom_shoulder();
-     
+    shoulder(main_position_z()); 
         
 //Bottom face of body
 translate([0,0,-(HEIGHT_BODY)])
