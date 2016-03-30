@@ -14,28 +14,29 @@ module base()
 
 module surface()
 {
-    offset_z = - HEIGHT_BODY - THICKNESS;
-    offset = [0, 0, offset_z];
+    position_z = - HEIGHT_BODY - THICKNESS;
+    position = [0, 0, position_z];
     
     diameter_total = DIAMETER_BASE - DIAMETER_OUTER_RING;
     
     color(GREY)
-        translate(offset)
+        translate(position)
             cylinder(h = THICKNESS, d = diameter_total, $fn = FINE);
 }
 
 module border()
 {
-    offset_z = -HEIGHT_BODY;
-    offset_base = [0, 0, offset_z];
+    position_base_z = -HEIGHT_BODY;
+    position_base = [0, 0, position_base_z];
     
-    offset_x = radius(DIAMETER_BASE) - radius(DIAMETER_OUTER_RING);
-    offset_border = [offset_x, 0, 0];
+    position_border_x = radius(DIAMETER_BASE) - radius(DIAMETER_OUTER_RING);
+
+    position_border = [position_border_x, 0, 0];
     
     color(GREY)
-        translate(offset_base)
+        translate(position_base)
             rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-                translate(offset_border)
+                translate(position_border)
                     circle(r = THICKNESS, $fn = FINE);
 }
 
