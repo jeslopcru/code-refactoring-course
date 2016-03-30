@@ -4,15 +4,20 @@ DIAMETER_BODY = 10.4;
 BORDER_RADIUS_BODY = 0.2;
 HEIGHT_NIPPLE = 0.8;
 
-
-module body()
-{ 
-//Top face of main body
-translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
+module top_surface()
+{
+    position_z = -(HEIGHT_NIPPLE + BORDER_RADIUS_BODY);
+    position = [0,0,position_z];
+    translate(position)
     cylinder(
         h = BORDER_RADIUS_BODY, 
         d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
         $fn = FINE);
+}
+
+module body()
+{ 
+    top_surface();
         
 //Body top shoulder
 translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
