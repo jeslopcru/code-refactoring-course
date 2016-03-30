@@ -4,8 +4,6 @@ DIAMETER_BASE = 6;
 DIAMETER_OUTER_RING = 0.6;
 THICKNESS = 0.3; 
 
-function radius(diameter) = diameter / 2;
-
 module base()
 {
     surface();
