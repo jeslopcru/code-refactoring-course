@@ -1,3 +1,4 @@
+include <constants.scad>;
 HEIGHT_BODY = 44.5;
 DIAMETER_BODY = 10.4;
 BORDER_RADIUS_BODY = 0.2;
@@ -11,13 +12,13 @@ translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
     cylinder(
         h = BORDER_RADIUS_BODY, 
         d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
-        $fn = 100);
+        $fn = FINE);
         
 //Body top shoulder
 translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
-    rotate_extrude(convexity = 10, $fn = 100)
+    rotate_extrude(convexity = 10, $fn = FINE)
     translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
-        circle(r = BORDER_RADIUS_BODY, $fn = 100);
+        circle(r = BORDER_RADIUS_BODY, $fn = FINE);
 
 //Main body cylinder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
@@ -28,16 +29,16 @@ translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
         
 //Body bottom shoulder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
-    rotate_extrude(convexity = 10, $fn = 100)
+    rotate_extrude(convexity = 10, $fn = FINE)
     translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
-        circle(r = BORDER_RADIUS_BODY, $fn = 100);
+        circle(r = BORDER_RADIUS_BODY, $fn = FINE);
         
 //Bottom face of body
 translate([0,0,-(HEIGHT_BODY)])
     cylinder(
         h = BORDER_RADIUS_BODY, 
         d = (DIAMETER_BODY - (2 * BORDER_RADIUS_BODY)),
-        $fn = 100);
+        $fn = FINE);
 }
 
 body();
