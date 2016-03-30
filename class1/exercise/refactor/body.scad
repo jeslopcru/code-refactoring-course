@@ -4,15 +4,17 @@ DIAMETER_BODY = 10.4;
 BORDER_RADIUS_BODY = 0.2;
 HEIGHT_NIPPLE = 0.8;
 
+HEIGHT_TOP = 2 * BORDER_RADIUS_BODY;
+
 function top_position_z () = -(HEIGHT_NIPPLE + BORDER_RADIUS_BODY);
 function main_position_z() = -(HEIGHT_BODY - BORDER_RADIUS_BODY);
+
 module top_surface()
 {
     position = [0,0,top_position_z()];
     
-    correction_diameter = (2 * BORDER_RADIUS_BODY);
-    diameter_base = DIAMETER_BODY - correction_diameter;
-
+    diameter_base = DIAMETER_BODY - HEIGHT_TOP;
+    
     translate(position)
     cylinder(
         h = BORDER_RADIUS_BODY, 
@@ -35,10 +37,13 @@ module top_shoulder()
 
 module main_cylinder()
 {
+    heigh_main = HEIGHT_BODY - (HEIGHT_NIPPLE + HEIGHT_TOP);
+    
     position = [0,0,main_position_z()];
+    
     translate(position)
         cylinder(
-            h = (HEIGHT_BODY - (HEIGHT_NIPPLE + (2*BORDER_RADIUS_BODY))),
+            h = heigh_main,
             d = DIAMETER_BODY,
             $fn = FINE);
 }
