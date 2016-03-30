@@ -19,16 +19,20 @@ module top_surface()
         $fn = FINE);
 }
 
+module top_shoulder()
+{
+   translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
+        rotate_extrude(convexity = CONVEXITY, $fn = FINE)
+            translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
+                circle(r = BORDER_RADIUS_BODY, $fn = FINE); 
+}
+
+
 module body()
 { 
     top_surface();
+    top_shoulder();
         
-//Body top shoulder
-translate([0,0,-(HEIGHT_NIPPLE + BORDER_RADIUS_BODY)])
-    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-    translate([(DIAMETER_BODY/2)-BORDER_RADIUS_BODY, 0, 0])
-        circle(r = BORDER_RADIUS_BODY, $fn = FINE);
-
 //Main body cylinder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
     cylinder(
