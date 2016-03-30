@@ -25,7 +25,7 @@ translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
     cylinder(
         h = (HEIGHT_BODY - (HEIGHT_NIPPLE + (2* BORDER_RADIUS_BODY))),
         d = DIAMETER_BODY,
-        $fn = 100);
+        $fn = FINE);
         
 //Body bottom shoulder
 translate([0,0,-(HEIGHT_BODY - BORDER_RADIUS_BODY)])
