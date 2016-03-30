@@ -25,12 +25,15 @@ module shoulder_top_little()
     translate(position_ring)
         rotate_extrude(convexity = CONVEXITY, $fn = FINE)
         translate(position_circle)
-            circle(r = BORDER_NIPPLE, $fn = FINE);  
+        circle(r = BORDER_NIPPLE, $fn = FINE);  
 }
 module nipple()
 {
     top_little();
     shoulder_top_little();
+  
+
+    
     
 //Main nipple cylinder
 color(GREY)
