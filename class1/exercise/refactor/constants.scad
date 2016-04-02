@@ -8,13 +8,3 @@ FINE = 100;
 CONVEXITY = 10;
 
 function radius(diameter) = diameter / 2;
-
-module body(position,height, diameter)
-{
-    color(GREY)
-    translate(position)
-        cylinder(
-            h = height,
-            d = diameter,
-            $fn = FINE);    
-}
