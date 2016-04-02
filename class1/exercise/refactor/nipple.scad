@@ -28,23 +28,28 @@ module shoulder_top_little()
         circle(r = BORDER_NIPPLE, $fn = FINE);  
 }
 
+module body_central()
+{
+    position_z = BORDER_NIPPLE - HEIGHT_NIPPLE;
+    position = [0,0,position_z];
+    
+    height = HEIGHT_NIPPLE - (BORDER_NIPPLE + BORDER_NIPPLE);
+    
+    color(GREY)
+    translate(position)
+        cylinder(
+            h = height,
+            d = DIAMETER_NIPPLE,
+            $fn = FINE);    
+}
 
 module nipple()
 {
     top_little();
     shoulder_top_little();
-  
+    body_central();
 
     
-    
-//Main nipple cylinder
-color(GREY)
-translate([0,0,-(HEIGHT_NIPPLE - BORDER_NIPPLE)])
-    cylinder(
-        h = (HEIGHT_NIPPLE - (BORDER_NIPPLE + BORDER_NIPPLE)),
-        d = DIAMETER_NIPPLE,
-        $fn = FINE);
-
 //Main nipple cylinder; base fillet
 color(GREY)
 difference()
