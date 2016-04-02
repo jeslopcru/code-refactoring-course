@@ -4,6 +4,8 @@ DIAMETER_NIPPLE = 3;
 BORDER_NIPPLE = 0.2;
 DIAMETER_BASE_NIPPLE = 6;
 
+function position_base() = [0,0,-HEIGHT_NIPPLE];
+function correction_border() = 2 * BORDER_NIPPLE;
 module top_little()
 {
     color(GREY)
@@ -14,7 +16,7 @@ module top_little()
                 $fn = FINE);
 }
 
-module shoulder_top_little()
+module border_top_little()
 {
     position_ring = [0,0,-BORDER_NIPPLE];
     
@@ -58,7 +60,7 @@ module milling_nipple()
 
 module milling_base()
 {
-    position_nipple_z = (2 * BORDER_NIPPLE) - HEIGHT_NIPPLE;
+    position_nipple_z = correction_border() - HEIGHT_NIPPLE;
     position_nipple = [0, 0, position_nipple_z];
         
     position_border_x = radius(DIAMETER_NIPPLE) + BORDER_NIPPLE;
@@ -77,10 +79,9 @@ module milling_nipple_base()
         milling_base();
     }
 }
-function position_base() = [0,0,-HEIGHT_NIPPLE];
 module base_cylinder()
 {
-    diameter = DIAMETER_BASE_NIPPLE - (2 * BORDER_NIPPLE);
+    diameter = DIAMETER_BASE_NIPPLE - correction_border();
     color(GREY)
         translate(position_base())
             cylinder(
@@ -90,16 +91,18 @@ module base_cylinder()
 }
 module base_border()
 {
+    position_x = radius(DIAMETER_BASE_NIPPLE)-BORDER_NIPPLE;
+    position_border = [position_x, 0, 0];
     color(GREY)
     translate(position_base())
         rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-        translate([(DIAMETER_BASE_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
+        translate(position_border)
             circle(r = BORDER_NIPPLE, $fn = FINE);    
 }
 module nipple()
 {
     top_little();
-    shoulder_top_little();
+    border_top_little();
     body_central_little();
     milling_nipple_base();
     base_cylinder();
