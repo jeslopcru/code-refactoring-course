@@ -6,14 +6,16 @@ class Configuration
     const REMOTE_PATH = './cache/remote/';
 
     const CACHE_KEY = 'cacheFolder';
-    const REMOTE_KEY = 'remoteFolder';
     const CACHE_MINUTES_KEY = 'cache_http_minutes';
-    const WIDTH_KEY = 'width';
-    const HEIGHT_KEY = 'height';
     const CROP_KEY = 'crop';
-    const SCALE_KEY = 'scale';
+    const HEIGHT_KEY = 'height';
+    const MAXONLY_KEY = 'maxOnly';
     const OUTPUTFILENAME_KEY = 'output-filename';
-
+    const QUALITY_KEY = 'quality';
+    const REMOTE_KEY = 'remoteFolder';
+    const SCALE_KEY = 'scale';
+    const WIDTH_KEY = 'width';
+    
     const CONVERT_PATH = 'convert';
 
     private $opts;
@@ -97,5 +99,15 @@ class Configuration
     public function obtainOutputFilename()
     {
         return $this->opts[self::OUTPUTFILENAME_KEY];
+    }
+
+    public function ObtainMaxOnly()
+    {
+        return $this->opts[self::MAXONLY_KEY];
+    }
+
+    public function ObtainQuality()
+    {
+        return $this->opts[self::QUALITY_KEY];
     }
 }
