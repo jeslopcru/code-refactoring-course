@@ -6,6 +6,7 @@ DIAMETER_BASE_NIPPLE = 6;
 
 function position_base() = [0,0,-HEIGHT_NIPPLE];
 function correction_border() = 2 * BORDER_NIPPLE;
+
 module top_little()
 {
     color(GREY)

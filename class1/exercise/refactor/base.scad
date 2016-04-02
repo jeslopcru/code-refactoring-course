@@ -7,7 +7,7 @@ THICKNESS = 0.3;
 module base()
 {
     surface();
-    border(-HEIGHT_BODY);
+    border();
 }
 
 module surface()
@@ -22,8 +22,9 @@ module surface()
             cylinder(h = THICKNESS, d = diameter_total, $fn = FINE);
 }
 
-module border(position_base_z)
+module border()
 {
+    position_base_z = -HEIGHT_BODY;
     position_base = [0, 0, position_base_z];
     
     position_border_x = radius(DIAMETER_BASE) - radius(DIAMETER_OUTER_RING);
