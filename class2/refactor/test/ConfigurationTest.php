@@ -20,7 +20,7 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
         'height' => null
     );
     /** @var Configuration */
-    private $configuration;
+    private $defaultConfiguration;
 
     public function testOpts()
     {
@@ -36,7 +36,7 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
 
     public function testDefaults()
     {
-        $asHash = $this->configuration->asHash();
+        $asHash = $this->defaultConfiguration->asHash();
 
         $this->assertEquals($this->defaults, $asHash);
     }
@@ -58,21 +58,39 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
 
     public function testObtainCache()
     {
-        $this->assertEquals('./cache/', $this->configuration->obtainCache());
+        $this->assertEquals('./cache/', $this->defaultConfiguration->obtainCache());
     }
 
     public function testObtainRemote()
     {
-        $this->assertEquals('./cache/remote/', $this->configuration->obtainRemote());
+        $this->assertEquals('./cache/remote/', $this->defaultConfiguration->obtainRemote());
     }
 
     public function testObtainConvertPath()
     {
-        $this->assertEquals('convert', $this->configuration->obtainConvertPath());
+        $this->assertEquals('convert', $this->defaultConfiguration->obtainConvertPath());
+    }
+
+    public function testObtainWidth()
+    {
+        $this->assertEquals(null, $this->defaultConfiguration->obtainWidth());
+
+        $valueExpected = 100;
+        $configuration = new Configuration(['width' => $valueExpected]);
+        $this->assertEquals($valueExpected, $configuration->obtainWidth());
+    }
+
+    public function testObtainHeight()
+    {
+        $this->assertEquals(null, $this->defaultConfiguration->obtainHeight());
+
+        $valueExpected = 100;
+        $configuration = new Configuration(['height' => $valueExpected]);
+        $this->assertEquals($valueExpected, $configuration->obtainHeight());
     }
 
     protected function setUp()
     {
-        $this->configuration = new Configuration();
+        $this->defaultConfiguration = new Configuration();
     }
 }
