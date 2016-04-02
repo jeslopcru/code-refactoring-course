@@ -7,6 +7,7 @@ class Configuration
 
     const CACHE_KEY = 'cacheFolder';
     const CACHE_MINUTES_KEY = 'cache_http_minutes';
+    const CANVASCOLOR_KEY = 'canvas-color';
     const CROP_KEY = 'crop';
     const HEIGHT_KEY = 'height';
     const MAXONLY_KEY = 'maxOnly';
@@ -109,5 +110,10 @@ class Configuration
     public function obtainQuality()
     {
         return $this->opts[self::QUALITY_KEY];
+    }
+    
+    public function obtainCanvasColor()
+    {
+        return $this->opts[self::CANVASCOLOR_KEY];
     }
 }

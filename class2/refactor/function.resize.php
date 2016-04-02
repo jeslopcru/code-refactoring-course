@@ -69,13 +69,12 @@ function isPanoramic($imagePath) {
 }
 
 function composeResizeOptions($imagePath, $configuration) {
-	$opts = $configuration->asHash();
 	$w = $configuration->obtainWidth();
 	$h = $configuration->obtainHeight();
 
 	$resize = "x".$h;
 
-	$hasCrop = (true === $opts['crop']);
+	$hasCrop = (true === $configuration->obtainCrop());
 
 	if(!$hasCrop && isPanoramic($imagePath)):
 		$resize = $w;
@@ -98,16 +97,21 @@ function commandWithScale($imagePath, $newPath, $configuration) {
 	return $cmd;
 }
 
+/**
+ * @param $imagePath
+ * @param $newPath
+ * @param Configuration $configuration
+ * @return string
+ */
 function commandWithCrop($imagePath, $newPath, $configuration) {
-	$opts = $configuration->asHash();
 	$w = $configuration->obtainWidth();
 	$h = $configuration->obtainHeight();
 	$resize = composeResizeOptions($imagePath, $configuration);
 
 	$cmd = $configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
 		" -size ". escapeshellarg($w ."x". $h) .
-		" xc:". escapeshellarg($opts['canvas-color']) .
-		" +swap -gravity center -composite -quality ". escapeshellarg($opts['quality'])." ".escapeshellarg($newPath);
+		" xc:". escapeshellarg($configuration->obtainCanvasColor()) .
+		" +swap -gravity center -composite -quality ". escapeshellarg($configuration->obtainQuality())." ".escapeshellarg($newPath);
 
 	return $cmd;
 }
@@ -173,5 +177,5 @@ function resize($imagePath,$opts=null){
 	$cacheFilePath = str_replace($_SERVER['DOCUMENT_ROOT'],'',$newPath);
 
 	return $cacheFilePath;
-	
+
 }
