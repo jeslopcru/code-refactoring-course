@@ -5,7 +5,10 @@ require 'autoload.php';
 function sanitize($path) {
 	return urldecode($path);
 }
-
+function injectFileSystem(FileSystem $fileSystem)
+{
+	$this->fileSystem = $fileSystem;
+}
 function isInCache($path, $imagePath) {
 	$isInCache = false;
 	if(file_exists($path) == true):

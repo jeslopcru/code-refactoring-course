@@ -6,5 +6,7 @@ require_once 'ImagePath.php';
 require_once 'Resizer.php';
 
 require_once 'function.resize.php';
+
+require_once 'vendor/autoload.php';
 date_default_timezone_set('Europe/Berlin');
 
