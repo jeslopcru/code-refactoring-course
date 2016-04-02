@@ -105,7 +105,9 @@ module nipple()
     top_little();
     border_top_little();
     body_central_little();
+    
     milling_nipple_base();
+    
     base_cylinder();
     base_border();       
 } 

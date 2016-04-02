@@ -1,7 +1,7 @@
 include <constants.scad>;
 HEIGHT_BODY = 44.5;
 DIAMETER_BODY = 10.4;
-BORDER_RADIUS_BODY = 0.2;
+BORDER_RADIUS_BODY = 0.5;
 HEIGHT_NIPPLE = 0.8;
 HEIGHT_COVER = 2 * BORDER_RADIUS_BODY;
 
@@ -9,7 +9,7 @@ HEIGHT_COVER = 2 * BORDER_RADIUS_BODY;
 function top_position_z () = -(HEIGHT_NIPPLE + BORDER_RADIUS_BODY);
 function main_position_z() = -(HEIGHT_BODY - BORDER_RADIUS_BODY);
 
-module surface(position_z)
+module base(position_z)
 {
     position = [0,0,position_z];
     diameter_base = DIAMETER_BODY - HEIGHT_COVER;
@@ -52,13 +52,13 @@ module top()
 {
     top_position_z = top_position_z();
     
-    surface(top_position_z);
+    base(top_position_z);
     shoulder(top_position_z); 
 }
 
 module bottom()
 {
-    surface(-HEIGHT_BODY);
+    base(-HEIGHT_BODY);
     shoulder(main_position_z()); 
 }
 
