@@ -27,6 +27,8 @@ module shoulder_top_little()
         translate(position_circle)
         circle(r = BORDER_NIPPLE, $fn = FINE);  
 }
+
+
 module nipple()
 {
     top_little();

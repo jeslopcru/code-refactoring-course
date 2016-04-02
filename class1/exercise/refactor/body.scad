@@ -34,7 +34,7 @@ module shoulder(position_z)
                 circle(r = BORDER_RADIUS_BODY, $fn = FINE); 
 }
 
-module main()
+module central()
 {    
     position = [0,0,main_position_z()];
     
@@ -65,7 +65,7 @@ module bottom()
 module body()
 { 
     top();
-    main();
+    central();
     bottom();
 }
 
