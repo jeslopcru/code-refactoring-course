@@ -89,6 +89,16 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($valueExpected, $configuration->obtainHeight());
     }
 
+    public function testObtainCrop()
+    {
+        $this->assertEquals(false, $this->defaultConfiguration->obtainCrop());
+    }
+
+    public function testObtainScale()
+    {
+        $this->assertEquals('false', $this->defaultConfiguration->obtainScale());
+    }
+
     protected function setUp()
     {
         $this->defaultConfiguration = new Configuration();

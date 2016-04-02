@@ -10,6 +10,8 @@ class Configuration
     const CACHE_MINUTES_KEY = 'cache_http_minutes';
     const WIDTH_KEY = 'width';
     const HEIGHT_KEY = 'height';
+    const CROP_KEY = 'crop';
+    const SCALE_KEY = 'scale';
 
     const CONVERT_PATH = 'convert';
 
@@ -79,6 +81,16 @@ class Configuration
     public function obtainCacheMinutes()
     {
         return $this->opts[self::CACHE_MINUTES_KEY];
+    }
+
+    public function obtainCrop()
+    {
+        return $this->opts[self::CROP_KEY];
+    }
+
+    public function obtainScale()
+    {
+        return $this->opts[self::SCALE_KEY];
     }
 
 }
