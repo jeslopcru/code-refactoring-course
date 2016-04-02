@@ -1,8 +1,6 @@
 <?php
 
-require 'ImagePath.php';
-require 'Configuration.php';
-require 'Resizer.php';
+require 'autoload.php';
 
 function sanitize($path) {
 	return urldecode($path);

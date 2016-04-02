@@ -1,9 +1,6 @@
 <?php
+require_once __DIR__ .'/../autoload.php';
 
-require_once 'Resizer.php';
-require_once 'ImagePath.php';
-require_once 'Configuration.php';
-date_default_timezone_set('Europe/Berlin');
 
 
 class ResizerTest extends PHPUnit_Framework_TestCase {
@@ -68,5 +65,25 @@ class ResizerTest extends PHPUnit_Framework_TestCase {
     public function testCreateNewPath() {
         $resizer = new Resizer(new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler'));
     }
+
+//    /**
+//     * @expectedException RuntimeException
+//     */
+//    public function testFilePathNotExists() {
+//        $configuration = new Configuration(array('width' => 800, 'height' => 600));
+//        $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
+//        $resizer = new Resizer($imagePath, $configuration);
+//
+//        $stub = $this->getMockBuilder('FileSystem')
+//            ->getMock();
+//        $stub->method('file_exists')
+//            ->willReturn(true);
+//
+//        $stub->method('filemtime')
+//            ->willReturn(21 * 60);
+//
+//        $resizer->injectFileSystem($stub);
+//
+//        $this->assertEquals('./cache/remote/mf.jpg', $resizer->obtainFilePath());    }
 
 }

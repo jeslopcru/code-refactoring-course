@@ -1,5 +1,5 @@
 <?php
-require_once 'ImagePath.php';
+require_once __DIR__ .'/../autoload.php';
 
 class ImagePathTest extends PHPUnit_Framework_TestCase {
 

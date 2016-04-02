@@ -1,6 +1,6 @@
 <?php
 
-require 'FileSystem.php';
+require_once 'autoload.php';
 
 class Resizer {
 
