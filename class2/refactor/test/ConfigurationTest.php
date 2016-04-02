@@ -19,6 +19,8 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
         'width' => null,
         'height' => null
     );
+    /** @var Configuration */
+    private $configuration;
 
     public function testOpts()
     {
@@ -34,8 +36,7 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
 
     public function testDefaults()
     {
-        $configuration = new Configuration();
-        $asHash = $configuration->asHash();
+        $asHash = $this->configuration->asHash();
 
         $this->assertEquals($this->defaults, $asHash);
     }
@@ -57,22 +58,21 @@ class ConfigurationTest extends PHPUnit_Framework_TestCase
 
     public function testObtainCache()
     {
-        $configuration = new Configuration();
-
-        $this->assertEquals('./cache/', $configuration->obtainCache());
+        $this->assertEquals('./cache/', $this->configuration->obtainCache());
     }
 
     public function testObtainRemote()
     {
-        $configuration = new Configuration();
-
-        $this->assertEquals('./cache/remote/', $configuration->obtainRemote());
+        $this->assertEquals('./cache/remote/', $this->configuration->obtainRemote());
     }
 
     public function testObtainConvertPath()
     {
-        $configuration = new Configuration();
+        $this->assertEquals('convert', $this->configuration->obtainConvertPath());
+    }
 
-        $this->assertEquals('convert', $configuration->obtainConvertPath());
+    protected function setUp()
+    {
+        $this->configuration = new Configuration();
     }
 }
