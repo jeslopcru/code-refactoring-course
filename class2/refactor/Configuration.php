@@ -12,6 +12,7 @@ class Configuration
     const HEIGHT_KEY = 'height';
     const CROP_KEY = 'crop';
     const SCALE_KEY = 'scale';
+    const OUTPUTFILENAME_KEY = 'output-filename';
 
     const CONVERT_PATH = 'convert';
 
@@ -93,4 +94,8 @@ class Configuration
         return $this->opts[self::SCALE_KEY];
     }
 
+    public function obtainOutputFilename()
+    {
+        return $this->opts[self::OUTPUTFILENAME_KEY];
+    }
 }
