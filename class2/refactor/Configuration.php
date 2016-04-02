@@ -101,12 +101,12 @@ class Configuration
         return $this->opts[self::OUTPUTFILENAME_KEY];
     }
 
-    public function ObtainMaxOnly()
+    public function obtainMaxOnly()
     {
         return $this->opts[self::MAXONLY_KEY];
     }
 
-    public function ObtainQuality()
+    public function obtainQuality()
     {
         return $this->opts[self::QUALITY_KEY];
     }
