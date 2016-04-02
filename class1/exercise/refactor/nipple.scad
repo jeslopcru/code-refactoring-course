@@ -31,21 +31,6 @@ module border_top_little()
         circle(r = BORDER_NIPPLE, $fn = FINE);  
 }
 
-module body_central_little()
-{
-    position_z = BORDER_NIPPLE - HEIGHT_NIPPLE;
-    position = [0,0,position_z];
-    
-    height = HEIGHT_NIPPLE - (BORDER_NIPPLE + BORDER_NIPPLE);
-    
-    color(GREY)
-    translate(position)
-        cylinder(
-            h = height,
-            d = DIAMETER_NIPPLE,
-            $fn = FINE);    
-}
-
 module milling_nipple()
 {
     position_nipple_z = BORDER_NIPPLE - HEIGHT_NIPPLE;
@@ -80,16 +65,7 @@ module milling_nipple_base()
         milling_base();
     }
 }
-module base_cylinder()
-{
-    diameter = DIAMETER_BASE_NIPPLE - correction_border();
-    color(GREY)
-        translate(position_base())
-            cylinder(
-                h = BORDER_NIPPLE,
-                d = diameter,
-                $fn = FINE);
-}
+
 module base_border()
 {
     position_x = radius(DIAMETER_BASE_NIPPLE)-BORDER_NIPPLE;
@@ -104,9 +80,19 @@ module nipple()
 {
     top_little();
     border_top_little();
-    body_central_little();
+    
+    body(
+        [0,0,BORDER_NIPPLE - HEIGHT_NIPPLE], 
+        HEIGHT_NIPPLE - (BORDER_NIPPLE + BORDER_NIPPLE), 
+        DIAMETER_NIPPLE);
+    
     milling_nipple_base();
-    base_cylinder();
+    
+
+    body(
+        position_base(), 
+        BORDER_NIPPLE, 
+        DIAMETER_BASE_NIPPLE - correction_border());
     base_border();       
 } 
 
