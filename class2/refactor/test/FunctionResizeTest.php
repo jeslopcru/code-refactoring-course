@@ -6,7 +6,7 @@ require_once __DIR__ . '/../autoload.php';
 class FunctionResizeTest extends PHPUnit_Framework_TestCase
 {
     private $root;
-    private $pathToRealImage = __DIR__ . '/../images/dog.jpg';
+    private $pathToRealImage =  'images/dog.jpg';
 
     public function testsanitize()
     {
@@ -56,12 +56,9 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
             ]
         );
 
-        $imagePath = org\bovigo\vfs\vfsStream::newFile('original.jpq')->at($this->root)->url();
-        $newPath = org\bovigo\vfs\vfsStream::newFile('resized.jpq')->at($this->root)->url();
-
         $this->assertEquals(
-            "convert 'vfs://root/original.jpq' -thumbnail x3 -quality '90' 'vfs://root/resized.jpq'",
-            defaultShellCommand($configuration, $imagePath, $newPath)
+            "convert 'imageFilePath' -thumbnail x3 -quality '90' 'newImageFilePath'",
+            defaultShellCommand($configuration, 'imageFilePath', 'newImageFilePath')
         );
     }
 
@@ -83,9 +80,18 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
 
         $configuration = new Configuration([Configuration::HEIGHT_KEY => 4, Configuration::CROP_KEY => true]);
         $this->assertEquals(null, composeResizeOptions($this->pathToRealImage, $configuration));
+    }
+
+    public function testCommandWithScale()
+    {
+        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
+        $this->assertEquals(
+            "convert 'images/dog.jpg' -resize 'x' -quality '90' 'newpath'",
+            commandWithScale($this->pathToRealImage, 'newpath', $configuration)
+        );
 
     }
-    
+
     public function setUp()
     {
         $this->root = org\bovigo\vfs\vfsStream::setup();
