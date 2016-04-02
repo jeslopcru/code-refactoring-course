@@ -30,16 +30,16 @@ function composeNewPath($imagePath, $configuration) {
 	$finfo = pathinfo($imagePath);
 	$ext = $finfo['extension'];
 
-	$cropSignal = isset($opts['crop']) && $opts['crop'] == true ? "_cp" : "";
-	$scaleSignal = isset($opts['scale']) && $opts['scale'] == true ? "_sc" : "";
+	$cropSignal = $configuration->obtainCrop() == true ? "_cp" : "";
+	$scaleSignal = $configuration->obtainScale() == true ? "_sc" : "";
 	$widthSignal = !empty($w) ? '_w'.$w : '';
 	$heightSignal = !empty($h) ? '_h'.$h : '';
 	$extension = '.'.$ext;
 
 	$newPath = $configuration->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
 
-	if($opts['output-filename']) {
-		$newPath = $opts['output-filename'];
+	if($configuration->obtainOutputFilename()) {
+		$newPath = $configuration->obtainOutputFilename();
 	}
 
 	return $newPath;
