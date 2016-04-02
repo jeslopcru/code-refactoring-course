@@ -41,9 +41,30 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
         $configuration = new Configuration([Configuration::OUTPUTFILENAME_KEY => $expectedPath]);
         $this->assertEquals(
             $expectedPath,
-            composeNewPath($imageFile->url(), $configuration));
+            composeNewPath($imageFile->url(), $configuration)
+        );
     }
 
+
+    public function testObtainDefaultShellCommand()
+    {
+        $expectedSize = 3;
+        $configuration = new Configuration(
+            [
+                Configuration::WIDTH_KEY => $expectedSize,
+                Configuration::HEIGHT_KEY => $expectedSize,
+            ]
+        );
+
+        $imagePath = org\bovigo\vfs\vfsStream::newFile('original.jpq')->at($this->root)->url();
+        $newPath = org\bovigo\vfs\vfsStream::newFile('resized.jpq')->at($this->root)->url();
+
+        $this->assertEquals(
+            "convert 'vfs://root/original.jpq' -thumbnail x3 -quality '90' 'vfs://root/resized.jpq'",
+            defaultShellCommand($configuration, $imagePath, $newPath)
+        );
+
+    }
 
     public function setUp()
     {

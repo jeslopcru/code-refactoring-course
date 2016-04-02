@@ -45,15 +45,20 @@ function composeNewPath($imagePath, $configuration) {
 	return $newPath;
 }
 
+/**
+ * @param Configuration $configuration
+ * @param $imagePath
+ * @param $newPath
+ * @return string
+ */
 function defaultShellCommand($configuration, $imagePath, $newPath) {
-	$opts = $configuration->asHash();
 	$w = $configuration->obtainWidth();
 	$h = $configuration->obtainHeight();
 
 	$command = $configuration->obtainConvertPath() ." " . escapeshellarg($imagePath) .
 	" -thumbnail ". (!empty($h) ? 'x':'') . $w ."".
-	(isset($opts['maxOnly']) && $opts['maxOnly'] == true ? "\>" : "") .
-	" -quality ". escapeshellarg($opts['quality']) ." ". escapeshellarg($newPath);
+	($configuration->obtainMaxOnly()== true ? "\>" : "") .
+	" -quality ". escapeshellarg($configuration->obtainQuality()) ." ". escapeshellarg($newPath);
 
 	return $command;
 }

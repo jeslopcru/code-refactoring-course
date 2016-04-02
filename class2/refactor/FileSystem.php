@@ -22,5 +22,10 @@ class FileSystem
     {
         return filemtime($filename);
     }
+    
+    public function getimagesize($filename)
+    {
+        return getimagesize($filename);
+    }
 
 }
