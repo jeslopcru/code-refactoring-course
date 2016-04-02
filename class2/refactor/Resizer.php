@@ -2,14 +2,18 @@
 
 require_once 'autoload.php';
 
-class Resizer {
+class Resizer
+{
 
     private $path;
     private $configuration;
     private $fileSystem;
 
-    public function __construct($path, $configuration=null) {
-        if ($configuration == null) $configuration = new Configuration();
+    public function __construct($path, $configuration = null)
+    {
+        if ($configuration == null) {
+            $configuration = new Configuration();
+        }
         $this->checkPath($path);
         $this->checkConfiguration($configuration);
         $this->path = $path;
@@ -17,27 +21,43 @@ class Resizer {
         $this->fileSystem = new FileSystem();
     }
 
-    public function injectFileSystem(FileSystem $fileSystem) {
+    private function checkPath($path)
+    {
+        if (!($path instanceof ImagePath)) {
+            throw new InvalidArgumentException();
+        }
+    }
+
+    private function checkConfiguration($configuration)
+    {
+        if (!($configuration instanceof Configuration)) {
+            throw new InvalidArgumentException();
+        }
+    }
+
+    public function injectFileSystem(FileSystem $fileSystem)
+    {
         $this->fileSystem = $fileSystem;
     }
 
-    public function obtainFilePath() {
+    public function obtainFilePath()
+    {
         $imagePath = '';
 
-        if($this->path->isHttpProtocol()):
+        if ($this->path->isHttpProtocol()):
             $filename = $this->path->obtainFileName();
-            $local_filepath = $this->configuration->obtainRemote() .$filename;
+            $local_filepath = $this->configuration->obtainRemote() . $filename;
             $inCache = $this->isInCache($local_filepath);
 
-            if(!$inCache):
+            if (!$inCache):
                 $this->download($local_filepath);
             endif;
             $imagePath = $local_filepath;
         endif;
 
-        if(!$this->fileSystem->file_exists($imagePath)):
-            $imagePath = $_SERVER['DOCUMENT_ROOT'].$imagePath;
-            if(!$this->fileSystem->file_exists($imagePath)):
+        if (!$this->fileSystem->file_exists($imagePath)):
+            $imagePath = $_SERVER['DOCUMENT_ROOT'] . $imagePath;
+            if (!$this->fileSystem->file_exists($imagePath)):
                 throw new RuntimeException();
             endif;
         endif;
@@ -45,30 +65,24 @@ class Resizer {
         return $imagePath;
     }
 
-
-    private function download($filePath) {
-        $img = $this->fileSystem->file_get_contents($this->path->sanitizedPath());
-        $this->fileSystem->file_put_contents($filePath,$img);
-    }
-
-    private function isInCache($filePath) {
+    private function isInCache($filePath)
+    {
         $fileExists = $this->fileSystem->file_exists($filePath);
         $fileValid = $this->fileNotExpired($filePath);
 
         return $fileExists && $fileValid;
     }
 
-    private function fileNotExpired($filePath) {
+    private function fileNotExpired($filePath)
+    {
         $cacheMinutes = $this->configuration->obtainCacheMinutes();
-        $this->fileSystem->filemtime($filePath) < strtotime('+'. $cacheMinutes. ' minutes');
+        $this->fileSystem->filemtime($filePath) < strtotime('+' . $cacheMinutes . ' minutes');
     }
 
-    private function checkPath($path) {
-        if (!($path instanceof ImagePath)) throw new InvalidArgumentException();
-    }
-
-    private function checkConfiguration($configuration) {
-        if (!($configuration instanceof Configuration)) throw new InvalidArgumentException();
+    private function download($filePath)
+    {
+        $img = $this->fileSystem->file_get_contents($this->path->sanitizedPath());
+        $this->fileSystem->file_put_contents($filePath, $img);
     }
 
 }

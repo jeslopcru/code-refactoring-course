@@ -1,9 +1,11 @@
 <?php
-require_once __DIR__ .'/../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
-class ImagePathTest extends PHPUnit_Framework_TestCase {
+class ImagePathTest extends PHPUnit_Framework_TestCase
+{
 
-    public function testIsSanitizedAtInstantiation() {
+    public function testIsSanitizedAtInstantiation()
+    {
         $url = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php%20define%20dictionary';
         $expected = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php define dictionary';
 
@@ -12,7 +14,8 @@ class ImagePathTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($expected, $imagePath->sanitizedPath());
     }
 
-    public function testIsHttpProtocol() {
+    public function testIsHttpProtocol()
+    {
         $url = 'https://example.com';
 
         $imagePath = new ImagePath($url);
@@ -28,7 +31,8 @@ class ImagePathTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse($imagePath->isHttpProtocol());
     }
 
-    public function testObtainFileName() {
+    public function testObtainFileName()
+    {
         $url = 'http://martinfowler.com/mf.jpg?query=hello&s=fowler';
 
         $imagePath = new ImagePath($url);

@@ -1,6 +1,7 @@
 <?php
 
-class Configuration {
+class Configuration
+{
     const CACHE_PATH = './cache/';
     const REMOTE_PATH = './cache/remote/';
 
@@ -14,8 +15,9 @@ class Configuration {
 
     private $opts;
 
-    public function __construct($opts=array()) {
-        $sanitized= $this->sanitize($opts);
+    public function __construct($opts = array())
+    {
+        $sanitized = $this->sanitize($opts);
 
         $defaults = array(
             'crop' => false,
@@ -29,42 +31,54 @@ class Configuration {
             'quality' => 90,
             'cache_http_minutes' => 20,
             'width' => null,
-            'height' => null);
+            'height' => null
+        );
 
         $this->opts = array_merge($defaults, $sanitized);
     }
 
-    public function asHash() {
+    private function sanitize($opts)
+    {
+        if ($opts == null) {
+            return array();
+        }
+
+        return $opts;
+    }
+
+    public function asHash()
+    {
         return $this->opts;
     }
 
-    public function obtainCache() {
+    public function obtainCache()
+    {
         return $this->opts[self::CACHE_KEY];
     }
 
-    public function obtainRemote() {
+    public function obtainRemote()
+    {
         return $this->opts[self::REMOTE_KEY];
     }
 
-    public function obtainConvertPath() {
+    public function obtainConvertPath()
+    {
         return self::CONVERT_PATH;
     }
 
-    public function obtainWidth() {
+    public function obtainWidth()
+    {
         return $this->opts[self::WIDTH_KEY];
     }
 
-    public function obtainHeight() {
+    public function obtainHeight()
+    {
         return $this->opts[self::HEIGHT_KEY];
     }
 
-    public function obtainCacheMinutes() {
+    public function obtainCacheMinutes()
+    {
         return $this->opts[self::CACHE_MINUTES_KEY];
-    }
-    private function sanitize($opts) {
-        if($opts == null) return array();
-
-        return $opts;
     }
 
 }

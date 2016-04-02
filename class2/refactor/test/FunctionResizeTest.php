@@ -6,6 +6,10 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
 {
 
 
+    public function testNoting()
+    {
+        $this->assertTrue(true);
+    }
 }
 
 ?>

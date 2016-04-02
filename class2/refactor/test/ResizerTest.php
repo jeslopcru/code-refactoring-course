@@ -1,30 +1,34 @@
 <?php
-require_once __DIR__ .'/../autoload.php';
+require_once __DIR__ . '/../autoload.php';
 
 
-
-class ResizerTest extends PHPUnit_Framework_TestCase {
+class ResizerTest extends PHPUnit_Framework_TestCase
+{
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testNecessaryCollaboration() {
+    public function testNecessaryCollaboration()
+    {
         $resizer = new Resizer('anyNonPathObject');
     }
 
     /**
      * @expectedException InvalidArgumentException
      */
-    public function testOptionalCollaboration() {
+    public function testOptionalCollaboration()
+    {
         $resizer = new Resizer(new ImagePath(''), 'nonConfigurationObject');
     }
 
-    public function testInstantiation() {
+    public function testInstantiation()
+    {
         $this->assertInstanceOf('Resizer', new Resizer(new ImagePath(''), new Configuration()));
         $this->assertInstanceOf('Resizer', new Resizer(new ImagePath('')));
     }
 
-    public function testObtainLocallyCachedFilePath() {
+    public function testObtainLocallyCachedFilePath()
+    {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
@@ -43,7 +47,8 @@ class ResizerTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testLocallyCachedFilePathFail() {
+    public function testLocallyCachedFilePathFail()
+    {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
@@ -62,14 +67,16 @@ class ResizerTest extends PHPUnit_Framework_TestCase {
 
     }
 
-    public function testCreateNewPath() {
+    public function testCreateNewPath()
+    {
         $resizer = new Resizer(new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler'));
     }
 
     /**
      * @expectedException RuntimeException
      */
-    public function testFilePathNotExists() {
+    public function testFilePathNotExists()
+    {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
@@ -84,6 +91,7 @@ class ResizerTest extends PHPUnit_Framework_TestCase {
 
         $resizer->injectFileSystem($stub);
 
-        $this->assertEquals('./cache/remote/mf.jpg', $resizer->obtainFilePath());    }
+        $this->assertEquals('./cache/remote/mf.jpg', $resizer->obtainFilePath());
+    }
 
 }
