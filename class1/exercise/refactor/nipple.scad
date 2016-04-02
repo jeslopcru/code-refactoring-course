@@ -77,18 +77,24 @@ module milling_nipple_base()
         milling_base();
     }
 }
-
+function position_base() = [0,0,-HEIGHT_NIPPLE];
 module base_cylinder()
 {
-    position_z = -HEIGHT_NIPPLE;
-    position = [0, 0, position_z];
     diameter = DIAMETER_BASE_NIPPLE - (2 * BORDER_NIPPLE);
     color(GREY)
-        translate(position)
+        translate(position_base())
             cylinder(
                 h = BORDER_NIPPLE,
                 d = diameter,
                 $fn = FINE);
+}
+module base_border()
+{
+    color(GREY)
+    translate(position_base())
+        rotate_extrude(convexity = CONVEXITY, $fn = FINE)
+        translate([(DIAMETER_BASE_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
+            circle(r = BORDER_NIPPLE, $fn = FINE);    
 }
 module nipple()
 {
@@ -97,14 +103,7 @@ module nipple()
     body_central_little();
     milling_nipple_base();
     base_cylinder();
-           
-//Nipple base shoulder
-color(GREY)
-translate([0,0,-HEIGHT_NIPPLE])
-    rotate_extrude(convexity = CONVEXITY, $fn = FINE)
-    translate([(DIAMETER_BASE_NIPPLE/2)-BORDER_NIPPLE, 0, 0])
-        circle(r = BORDER_NIPPLE, $fn = FINE);
- 
+    base_border();       
 } 
 
 nipple();
