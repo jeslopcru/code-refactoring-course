@@ -18,19 +18,19 @@ class ResizerTest extends PHPUnit_Framework_TestCase
      */
     public function testOptionalCollaboration()
     {
-        $resizer = new Resizer(new ImagePath(''), 'nonConfigurationObject');
+        $resizer = new Resizer(new UrlImage(''), 'nonConfigurationObject');
     }
 
     public function testInstantiation()
     {
-        $this->assertInstanceOf('Resizer', new Resizer(new ImagePath(''), new Configuration()));
-        $this->assertInstanceOf('Resizer', new Resizer(new ImagePath('')));
+        $this->assertInstanceOf('Resizer', new Resizer(new UrlImage(''), new Configuration()));
+        $this->assertInstanceOf('Resizer', new Resizer(new UrlImage('')));
     }
 
     public function testObtainLocallyCachedFilePath()
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
-        $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
+        $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')
@@ -50,7 +50,7 @@ class ResizerTest extends PHPUnit_Framework_TestCase
     public function testLocallyCachedFilePathFail()
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
-        $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
+        $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')
@@ -69,7 +69,7 @@ class ResizerTest extends PHPUnit_Framework_TestCase
 
     public function testCreateNewPath()
     {
-        $resizer = new Resizer(new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler'));
+        $resizer = new Resizer(new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler'));
     }
 
     /**
@@ -78,7 +78,7 @@ class ResizerTest extends PHPUnit_Framework_TestCase
     public function testFilePathNotExists()
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
-        $imagePath = new ImagePath('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
+        $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
         $resizer = new Resizer($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')

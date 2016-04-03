@@ -45,7 +45,6 @@ class ShellCommand
 
         if ($this->needResize($this->hasCrop(), $this->isPanoramic($imagePath))) {
             $resize = $w;
-
         }
 
         return $resize;
@@ -73,7 +72,7 @@ class ShellCommand
     {
         $w = $this->configuration->obtainWidth();
         $h = $this->configuration->obtainHeight();
-        $resize = $this->composeResizeOptions($imagePath, $this->configuration);
+        $resize = $this->composeResizeOptions($imagePath);
 
         $cmd = $this->configuration->obtainConvertPath() . " " . escapeshellarg($imagePath) . " -resize " . escapeshellarg($resize) .
             " -size " . escapeshellarg($w . "x" . $h) .

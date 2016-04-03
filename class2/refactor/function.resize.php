@@ -48,14 +48,14 @@ function doResize($imagePath, $newPath, $configuration) {
 	$opts = $configuration->asHash();
 	$w = $configuration->obtainWidth();
 	$h = $configuration->obtainHeight();
-
+	$shell = new ShellCommand($configuration);
 	if(!empty($w) and !empty($h)):
-		$cmd = commandWithCrop($imagePath, $newPath, $configuration);
+		$cmd = $shell->commandWithCrop($imagePath, $newPath, $configuration);
 		if(true === $opts['scale']):
-			$cmd = commandWithScale($imagePath, $newPath, $configuration);
+			$cmd = $shell->commandWithScale($imagePath, $newPath, $configuration);
 		endif;
 	else:
-		$cmd = defaultShellCommand($configuration, $imagePath, $newPath);
+		$cmd = $shell->defaultShellCommand($configuration, $imagePath, $newPath);
 	endif;
 
 	$c = exec($cmd, $output, $return_code);
@@ -68,7 +68,7 @@ function doResize($imagePath, $newPath, $configuration) {
 function resize($imagePath,$opts=null){
 
 
-	$path = new ImagePath($imagePath);
+	$path = new UrlImage($imagePath);
 	$configuration = new Configuration($opts);
 
 	$resizer = new Resizer($path, $configuration);

@@ -9,7 +9,7 @@ class ImagePathTest extends PHPUnit_Framework_TestCase
         $url = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php%20define%20dictionary';
         $expected = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php define dictionary';
 
-        $imagePath = new ImagePath($url);
+        $imagePath = new UrlImage($url);
 
         $this->assertEquals($expected, $imagePath->sanitizedPath());
     }
@@ -18,15 +18,15 @@ class ImagePathTest extends PHPUnit_Framework_TestCase
     {
         $url = 'https://example.com';
 
-        $imagePath = new ImagePath($url);
+        $imagePath = new UrlImage($url);
 
         $this->assertTrue($imagePath->isHttpProtocol());
 
-        $imagePath = new ImagePath('ftp://example.com');
+        $imagePath = new UrlImage('ftp://example.com');
 
         $this->assertFalse($imagePath->isHttpProtocol());
 
-        $imagePath = new ImagePath(null);
+        $imagePath = new UrlImage(null);
 
         $this->assertFalse($imagePath->isHttpProtocol());
     }
@@ -35,7 +35,7 @@ class ImagePathTest extends PHPUnit_Framework_TestCase
     {
         $url = 'http://martinfowler.com/mf.jpg?query=hello&s=fowler';
 
-        $imagePath = new ImagePath($url);
+        $imagePath = new UrlImage($url);
 
         $this->assertEquals('mf.jpg', $imagePath->obtainFileName());
     }
