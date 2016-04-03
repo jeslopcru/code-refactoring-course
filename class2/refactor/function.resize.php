@@ -43,48 +43,6 @@ function composeNewPath($imagePath, $configuration) {
 	return $newPath;
 }
 
-function isPanoramic($imagePath) {
-	list($width,$height) = getimagesize($imagePath);
-	return $width > $height;
-}
-
-function composeResizeOptions($imagePath, $configuration) {
-	$w = $configuration->obtainWidth();
-	$h = $configuration->obtainHeight();
-
-	$resize = "x".$h;
-
-	$hasCrop = (true === $configuration->obtainCrop());
-
-	if(!$hasCrop && isPanoramic($imagePath)):
-		$resize = $w;
-	endif;
-
-	if($hasCrop && !isPanoramic($imagePath)):
-		$resize = $w;
-	endif;
-
-	return $resize;
-}
-
-/**
- * @param $imagePath
- * @param $newPath
- * @param Configuration $configuration
- * @return string
- */
-function commandWithCrop($imagePath, $newPath, $configuration) {
-	$w = $configuration->obtainWidth();
-	$h = $configuration->obtainHeight();
-	$resize = composeResizeOptions($imagePath, $configuration);
-
-	$cmd = $configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
-		" -size ". escapeshellarg($w ."x". $h) .
-		" xc:". escapeshellarg($configuration->obtainCanvasColor()) .
-		" +swap -gravity center -composite -quality ". escapeshellarg($configuration->obtainQuality())." ".escapeshellarg($newPath);
-
-	return $cmd;
-}
 
 function doResize($imagePath, $newPath, $configuration) {
 	$opts = $configuration->asHash();

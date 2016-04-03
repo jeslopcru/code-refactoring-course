@@ -46,35 +46,6 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
         );
     }
     
-    public function testIsPanoramic()
-    {
-        $this->assertFalse(isPanoramic($this->pathToRealImage));
-    }
-
-    public function testComposeResizeOptions()
-    {
-        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
-        $this->assertEquals('x', composeResizeOptions($this->pathToRealImage, $configuration));
-
-        $configuration = new Configuration([Configuration::WIDTH_KEY => 4, Configuration::CROP_KEY => true]);
-        $this->assertEquals('4', composeResizeOptions($this->pathToRealImage, $configuration));
-
-        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4,]);
-        $this->assertEquals('x4', composeResizeOptions($this->pathToRealImage, $configuration));
-
-        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4, Configuration::CROP_KEY => true]);
-        $this->assertEquals(null, composeResizeOptions($this->pathToRealImage, $configuration));
-    }
-
-    public function testCommandWithCrop()
-    {
-        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
-        $this->assertEquals(
-            "convert 'images/dog.jpg' -resize 'x' -size '66x' xc:'transparent' +swap -gravity center -composite -quality '90' 'newpath'",
-            commandWithCrop($this->pathToRealImage, 'newpath', $configuration)
-        );
-    }
-    
     public function setUp()
     {
         $this->root = org\bovigo\vfs\vfsStream::setup();

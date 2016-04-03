@@ -4,7 +4,7 @@
 class ShellCommandTest extends PHPUnit_Framework_TestCase
 {
 
-    private $pathToRealImage =  'images/dog.jpg';
+    private $pathToRealImage = 'images/dog.jpg';
 
     public function testObtainDefaultShellCommand()
     {
@@ -42,6 +42,35 @@ class ShellCommandTest extends PHPUnit_Framework_TestCase
             "convert 'images/dog.jpg' -resize 'x' -size '66x' xc:'transparent' +swap -gravity center -composite -quality '90' 'newpath'",
             $shell->commandWithCrop($this->pathToRealImage, 'newpath', $configuration)
         );
+    }
+
+
+    public function testIsPanoramic()
+    {
+        $shell = new ShellCommand(new Configuration());
+        $this->assertFalse($shell->isPanoramic($this->pathToRealImage));
+    }
+
+    public function testComposeResizeOptions()
+    {
+        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
+        $shell = new ShellCommand($configuration);
+
+        $this->assertEquals('x', $shell->composeResizeOptions($this->pathToRealImage));
+
+        $configuration = new Configuration([Configuration::WIDTH_KEY => 4, Configuration::CROP_KEY => true]);
+        $shell = new ShellCommand($configuration);
+
+        $this->assertEquals('4', $shell->composeResizeOptions($this->pathToRealImage));
+
+        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4,]);
+        $shell = new ShellCommand($configuration);
+
+        $this->assertEquals('x4', $shell->composeResizeOptions($this->pathToRealImage));
+
+        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4, Configuration::CROP_KEY => true]);
+        $shell = new ShellCommand($configuration);
+        $this->assertEquals(null, $shell->composeResizeOptions($this->pathToRealImage));
     }
 
 }

@@ -23,7 +23,7 @@ class ShellCommand
     }
 
     public function commandWithScale($imagePath, $newPath) {
-        $resize = composeResizeOptions($imagePath, $this->configuration);
+        $resize = $this->composeResizeOptions($imagePath, $this->configuration);
 
         $cmd = $this->configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
             " -quality ". escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
@@ -34,7 +34,7 @@ class ShellCommand
     public function commandWithCrop($imagePath, $newPath) {
         $w = $this->configuration->obtainWidth();
         $h = $this->configuration->obtainHeight();
-        $resize = composeResizeOptions($imagePath, $this->configuration);
+        $resize = $this->composeResizeOptions($imagePath, $this->configuration);
 
         $cmd = $this->configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
             " -size ". escapeshellarg($w ."x". $h) .
@@ -42,5 +42,29 @@ class ShellCommand
             " +swap -gravity center -composite -quality ". escapeshellarg($this->configuration->obtainQuality())." ".escapeshellarg($newPath);
 
         return $cmd;
+    }
+
+    function isPanoramic($imagePath) {
+        list($width,$height) = getimagesize($imagePath);
+        return $width > $height;
+    }
+
+    function composeResizeOptions($imagePath) {
+        $w = $this->configuration->obtainWidth();
+        $h = $this->configuration->obtainHeight();
+
+        $resize = "x".$h;
+
+        $hasCrop = (true === $this->configuration->obtainCrop());
+
+        if(!$hasCrop && $this->isPanoramic($imagePath)):
+            $resize = $w;
+        endif;
+
+        if($hasCrop && !$this->isPanoramic($imagePath)):
+            $resize = $w;
+        endif;
+
+        return $resize;
     }
 }
