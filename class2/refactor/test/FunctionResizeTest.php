@@ -92,6 +92,16 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
 
     }
 
+    public function testCommandWithCrop()
+    {
+        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
+        $this->assertEquals(
+            "convert 'images/dog.jpg' -resize 'x' -size '66x' xc:'transparent' +swap -gravity center -composite -quality '90' 'newpath'",
+            commandWithCrop($this->pathToRealImage, 'newpath', $configuration)
+        );
+
+    }
+    
     public function setUp()
     {
         $this->root = org\bovigo\vfs\vfsStream::setup();
