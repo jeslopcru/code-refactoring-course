@@ -1,12 +1,7 @@
 <?php
 
-
-require_once __DIR__ . '/../autoload.php';
-
 class FunctionResizeTest extends PHPUnit_Framework_TestCase
 {
-    private $root;
-    private $pathToRealImage =  'images/dog.jpg';
 
     public function testsanitize()
     {
@@ -26,24 +21,6 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
 
         $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->lastModified(strtotime('tomorrow'))->at($this->root);
         $this->assertFalse(isInCache($path, $imageFile->url()));
-    }
-
-
-    public function testNewPath()
-    {
-        $configuration = new Configuration();
-        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->at($this->root);
-
-        $this->assertEquals(
-            './cache/d41d8cd98f00b204e9800998ecf8427e_sc.jpq',
-            composeNewPath($imageFile->url(), $configuration));
-
-        $expectedPath = 'thiIsAExpectedPath';
-        $configuration = new Configuration([Configuration::OUTPUTFILENAME_KEY => $expectedPath]);
-        $this->assertEquals(
-            $expectedPath,
-            composeNewPath($imageFile->url(), $configuration)
-        );
     }
     
     public function setUp()

@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../autoload.php';
 
 
 class ResizerTest extends PHPUnit_Framework_TestCase

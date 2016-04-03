@@ -1,8 +1,5 @@
 <?php
 
-require_once __DIR__ . '/../autoload.php';
-
-
 class ConfigurationTest extends PHPUnit_Framework_TestCase
 {
     private $defaults = array(

@@ -3,6 +3,7 @@
 require 'autoload.php';
 
 function sanitize($path) {
+
 	return urldecode($path);
 }
 
@@ -13,34 +14,12 @@ function isInCache($path, $imagePath) {
 		$isInCache = true;
 		$origFileTime = date("YmdHis",filemtime($imagePath));
 		$newFileTime = date("YmdHis",filemtime($path));
-		if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
+		if($newFileTime < $origFileTime): 
 			$isInCache = false;
 		endif;
 	endif;
 
 	return $isInCache;
-}
-
-function composeNewPath($imagePath, $configuration) {
-	$w = $configuration->obtainWidth();
-	$h = $configuration->obtainHeight();
-	$filename = md5_file($imagePath);
-	$finfo = pathinfo($imagePath);
-	$ext = $finfo['extension'];
-
-	$cropSignal = $configuration->obtainCrop() == true ? "_cp" : "";
-	$scaleSignal = $configuration->obtainScale() == true ? "_sc" : "";
-	$widthSignal = !empty($w) ? '_w'.$w : '';
-	$heightSignal = !empty($h) ? '_h'.$h : '';
-	$extension = '.'.$ext;
-
-	$newPath = $configuration->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
-
-	if($configuration->obtainOutputFilename()) {
-		$newPath = $configuration->obtainOutputFilename();
-	}
-
-	return $newPath;
 }
 
 
