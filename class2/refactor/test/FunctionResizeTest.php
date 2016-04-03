@@ -45,23 +45,7 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
             composeNewPath($imageFile->url(), $configuration)
         );
     }
-
-    public function testObtainDefaultShellCommand()
-    {
-        $expectedSize = 3;
-        $configuration = new Configuration(
-            [
-                Configuration::WIDTH_KEY => $expectedSize,
-                Configuration::HEIGHT_KEY => $expectedSize,
-            ]
-        );
-
-        $this->assertEquals(
-            "convert 'imageFilePath' -thumbnail x3 -quality '90' 'newImageFilePath'",
-            defaultShellCommand($configuration, 'imageFilePath', 'newImageFilePath')
-        );
-    }
-
+    
     public function testIsPanoramic()
     {
         $this->assertFalse(isPanoramic($this->pathToRealImage));

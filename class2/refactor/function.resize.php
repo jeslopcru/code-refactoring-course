@@ -43,24 +43,6 @@ function composeNewPath($imagePath, $configuration) {
 	return $newPath;
 }
 
-/**
- * @param Configuration $configuration
- * @param $imagePath
- * @param $newPath
- * @return string
- */
-function defaultShellCommand($configuration, $imagePath, $newPath) {
-	$w = $configuration->obtainWidth();
-	$h = $configuration->obtainHeight();
-
-	$command = $configuration->obtainConvertPath() ." " . escapeshellarg($imagePath) .
-	" -thumbnail ". (!empty($h) ? 'x':'') . $w ."".
-	($configuration->obtainMaxOnly()== true ? "\>" : "") .
-	" -quality ". escapeshellarg($configuration->obtainQuality()) ." ". escapeshellarg($newPath);
-
-	return $command;
-}
-
 function isPanoramic($imagePath) {
 	list($width,$height) = getimagesize($imagePath);
 	return $width > $height;
