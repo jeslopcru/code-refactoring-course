@@ -3,30 +3,43 @@
 
 class ShellCommand
 {
-    
-    /**
-     * @param Configuration $configuration
-     * @param $imagePath
-     * @param $newPath
-     * @return string
-     */
-    public function defaultShellCommand($configuration, $imagePath, $newPath) {
-        $w = $configuration->obtainWidth();
-        $h = $configuration->obtainHeight();
+    private $configuration;
 
-        $command = $configuration->obtainConvertPath() ." " . escapeshellarg($imagePath) .
+    public function __construct(Configuration $configuration)
+    {
+        $this->configuration = $configuration;
+    }
+    
+    public function defaultShellCommand($imagePath, $newPath) {
+        $w = $this->configuration->obtainWidth();
+        $h = $this->configuration->obtainHeight();
+
+        $command = $this->configuration->obtainConvertPath() ." " . escapeshellarg($imagePath) .
             " -thumbnail ". (!empty($h) ? 'x':'') . $w ."".
-            ($configuration->obtainMaxOnly()== true ? "\>" : "") .
-            " -quality ". escapeshellarg($configuration->obtainQuality()) ." ". escapeshellarg($newPath);
+            ($this->configuration->obtainMaxOnly()== true ? "\>" : "") .
+            " -quality ". escapeshellarg($this->configuration->obtainQuality()) ." ". escapeshellarg($newPath);
 
         return $command;
     }
 
-    public function commandWithScale($imagePath, $newPath, $configuration) {
-        $resize = composeResizeOptions($imagePath, $configuration);
+    public function commandWithScale($imagePath, $newPath) {
+        $resize = composeResizeOptions($imagePath, $this->configuration);
 
-        $cmd = $configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
-            " -quality ". escapeshellarg($configuration->obtainQuality()) . " " . escapeshellarg($newPath);
+        $cmd = $this->configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
+            " -quality ". escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
+
+        return $cmd;
+    }
+
+    public function commandWithCrop($imagePath, $newPath) {
+        $w = $this->configuration->obtainWidth();
+        $h = $this->configuration->obtainHeight();
+        $resize = composeResizeOptions($imagePath, $this->configuration);
+
+        $cmd = $this->configuration->obtainConvertPath() ." ". escapeshellarg($imagePath) ." -resize ". escapeshellarg($resize) .
+            " -size ". escapeshellarg($w ."x". $h) .
+            " xc:". escapeshellarg($this->configuration->obtainCanvasColor()) .
+            " +swap -gravity center -composite -quality ". escapeshellarg($this->configuration->obtainQuality())." ".escapeshellarg($newPath);
 
         return $cmd;
     }

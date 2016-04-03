@@ -66,16 +66,6 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(null, composeResizeOptions($this->pathToRealImage, $configuration));
     }
 
-    public function testCommandWithScale()
-    {
-        $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
-        $this->assertEquals(
-            "convert 'images/dog.jpg' -resize 'x' -quality '90' 'newpath'",
-            commandWithScale($this->pathToRealImage, 'newpath', $configuration)
-        );
-
-    }
-
     public function testCommandWithCrop()
     {
         $configuration = new Configuration([Configuration::WIDTH_KEY => 66,]);
@@ -83,7 +73,6 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
             "convert 'images/dog.jpg' -resize 'x' -size '66x' xc:'transparent' +swap -gravity center -composite -quality '90' 'newpath'",
             commandWithCrop($this->pathToRealImage, 'newpath', $configuration)
         );
-
     }
     
     public function setUp()
