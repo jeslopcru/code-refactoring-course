@@ -2,15 +2,6 @@
 
 require 'autoload.php';
 
-function sanitize($path) {
-
-	return urldecode($path);
-}
-
-
-
-
-
 function doResize($imagePath, $newPath, $configuration) {
 	$resizerOptions = new ResizerOptions($configuration);
 	$cmd = $resizerOptions->obtainResizerOption($imagePath,$newPath);
@@ -27,7 +18,7 @@ function resize($imagePath,$opts=null){
 
 	$configuration = new Configuration($opts);
 	$urlPath = new UrlImage($imagePath);
-
+	
 	$resizer = new Resizer($urlPath, $configuration);
 	
 	if(empty($configuration->obtainOutputFilename()) && empty($configuration->obtainWidth()) && empty($configuration->obtainHeight())) {
@@ -40,13 +31,10 @@ function resize($imagePath,$opts=null){
 	} catch (Exception $e) {
 		return 'image not found';
 	}
-	$path = new Path($configuration);
-
+	$path = new ImagePath($configuration);
 	$newPath = $path->composeNewPath($imagePath);
 
-    $create = !isInCache($newPath, $imagePath);
-
-	if($create == true):
+	if($path->isInCache($newPath, $imagePath) == false):
 		try {
 			doResize($imagePath, $newPath, $configuration);
 		} catch (Exception $e) {

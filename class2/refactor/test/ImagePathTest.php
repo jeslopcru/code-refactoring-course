@@ -1,42 +1,46 @@
 <?php
 
+
 class ImagePathTest extends PHPUnit_Framework_TestCase
 {
+    private $root;
 
-    public function testIsSanitizedAtInstantiation()
+    public function testNewPath()
     {
-        $url = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php%20define%20dictionary';
-        $expected = 'https://www.google.com/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#safe=off&q=php define dictionary';
+        $configuration = new Configuration();
+        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->at($this->root);
+        $path = new ImagePath($configuration);
+        $this->assertEquals(
+            './cache/d41d8cd98f00b204e9800998ecf8427e_sc.jpq',
+            $path->composeNewPath($imageFile->url(), $configuration));
 
-        $imagePath = new UrlImage($url);
+        $expectedPath = 'thiIsAExpectedPath';
+        $configuration = new Configuration([Configuration::OUTPUTFILENAME_KEY => $expectedPath]);
+        $path = new ImagePath($configuration);
 
-        $this->assertEquals($expected, $imagePath->sanitizedPath());
+        $this->assertEquals(
+            $expectedPath,
+            $path->composeNewPath($imageFile->url())
+        );
     }
 
-    public function testIsHttpProtocol()
+    public function testIsInCache()
     {
-        $url = 'https://example.com';
+        $path = new ImagePath(new Configuration());
+        $this->assertFalse($path->isInCache('', ''));
 
-        $imagePath = new UrlImage($url);
+        $url = $this->root->url();
+        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->at($this->root);
+        $this->assertTrue($path->isInCache($url, $imageFile->url()));
 
-        $this->assertTrue($imagePath->isHttpProtocol());
-
-        $imagePath = new UrlImage('ftp://example.com');
-
-        $this->assertFalse($imagePath->isHttpProtocol());
-
-        $imagePath = new UrlImage(null);
-
-        $this->assertFalse($imagePath->isHttpProtocol());
+        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->lastModified(strtotime('tomorrow'))->at($this->root);
+        $this->assertFalse($path->isInCache($url, $imageFile->url()));
     }
 
-    public function testObtainFileName()
+    public function setUp()
     {
-        $url = 'http://martinfowler.com/mf.jpg?query=hello&s=fowler';
-
-        $imagePath = new UrlImage($url);
-
-        $this->assertEquals('mf.jpg', $imagePath->obtainFileName());
+        $this->root = org\bovigo\vfs\vfsStream::setup();
     }
+
 
 }

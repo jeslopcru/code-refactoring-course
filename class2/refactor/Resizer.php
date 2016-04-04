@@ -76,7 +76,7 @@ class Resizer
     private function fileNotExpired($filePath)
     {
         $cacheMinutes = $this->configuration->obtainCacheMinutes();
-        $this->fileSystem->filemtime($filePath) < strtotime('+' . $cacheMinutes . ' minutes');
+        return $this->fileSystem->filemtime($filePath) < strtotime('+' . $cacheMinutes . ' minutes');
     }
 
     private function download($filePath)
