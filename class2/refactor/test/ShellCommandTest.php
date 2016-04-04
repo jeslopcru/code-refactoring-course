@@ -148,7 +148,7 @@ class ShellCommandTest extends PHPUnit_Framework_TestCase
 
     public function testResizeNotPanoramicImageWithHeightAndWidth()
     {
-        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4,Configuration::WIDTH_KEY => 5,]);
+        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4, Configuration::WIDTH_KEY => 5,]);
         $shell = new ShellCommand($configuration);
 
         $stub = $this->obtainANotPanoramicImageMock();
@@ -160,7 +160,10 @@ class ShellCommandTest extends PHPUnit_Framework_TestCase
     public function testResizePanoramicImageWithHeightAndWidth()
     {
         $expectedResult = 5;
-        $configuration = new Configuration([Configuration::HEIGHT_KEY => 4,Configuration::WIDTH_KEY => $expectedResult,]);
+        $configuration = new Configuration([
+            Configuration::HEIGHT_KEY => 4,
+            Configuration::WIDTH_KEY => $expectedResult,
+        ]);
         $shell = new ShellCommand($configuration);
 
         $stub = $this->obtainAPanoramicImageMock();
@@ -174,6 +177,48 @@ class ShellCommandTest extends PHPUnit_Framework_TestCase
         $configuration = new Configuration([Configuration::HEIGHT_KEY => 4, Configuration::CROP_KEY => true]);
         $shell = new ShellCommand($configuration);
         $this->assertEquals(null, $shell->composeResizeOptions($this->pathToRealImage));
+    }
+
+    public function testObtainResizeCommadDefault()
+    {
+        $configuration = new Configuration();
+        $shell = new ShellCommand($configuration);
+        $this->assertEquals("convert 'path' -thumbnail  -quality '90' 'newPath'",
+            $shell->obtainResizeCommand('path', 'newPath'));
+    }
+
+    public function testObtainResizeCommadWithCrop()
+    {
+        $configuration = new Configuration([Configuration::SCALE_KEY => true,]);
+        $shell = new ShellCommand($configuration);
+        $this->assertEquals("convert 'path' -thumbnail  -quality '90' 'newPath'",
+            $shell->obtainResizeCommand('path', 'newPath'));
+
+        $configuration = new Configuration([Configuration::WIDTH_KEY => 66, Configuration::SCALE_KEY => true,]);
+        $shell = new ShellCommand($configuration);
+        $this->assertEquals("convert 'path' -thumbnail 66 -quality '90' 'newPath'",
+            $shell->obtainResizeCommand('path', 'newPath'));
+    }
+
+    public function testObtainResizeCommadWithScale()
+    {
+        $option = [Configuration::WIDTH_KEY => 66, Configuration::HEIGHT_KEY => 99];
+        $configuration = new Configuration($option);
+        $shell = new ShellCommand($configuration);
+
+        $stub = $this->obtainANotPanoramicImageMock();
+        $shell->injectFileSystem($stub);
+
+        $this->assertEquals(
+            "convert 'path' -resize 'x99' -size '66x99' xc:'transparent' +swap -gravity center -composite -quality '90' 'newPath'",
+            $shell->obtainResizeCommand('path', 'newPath'));
+
+        $stub = $this->obtainAPanoramicImageMock();
+        $shell->injectFileSystem($stub);
+
+        $this->assertEquals("convert 'path' -resize '66' -size '66x99' xc:'transparent' +swap -gravity center -composite -quality '90' 'newPath'",
+            $shell->obtainResizeCommand('path', 'newPath'));
+
     }
 
 }

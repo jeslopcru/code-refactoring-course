@@ -13,6 +13,21 @@ class ShellCommand
 
     }
 
+    public function obtainResizeCommand($imagePath, $newPath)
+    {
+        $cmd = $this->defaultShellCommand($imagePath, $newPath);
+
+        if ($this->isWidthDefined() && $this->isHeightDefined()) {
+            $cmd = $this->commandWithCrop($imagePath, $newPath);
+
+            if ($this->isScaledDefined()) {
+                $cmd = $this->commandWithScale($imagePath, $newPath);
+            }
+        }
+
+        return $cmd;
+    }
+
     public function defaultShellCommand($imagePath, $newPath)
     {
         $w = $this->configuration->obtainWidth();
@@ -26,12 +41,32 @@ class ShellCommand
         return $command;
     }
 
-    public function commandWithScale($imagePath, $newPath)
+    /**
+     * @return bool
+     */
+    private function isWidthDefined()
     {
-        $resize = $this->composeResizeOptions($imagePath, $this->configuration);
+        return !empty($this->configuration->obtainWidth());
+    }
+
+    /**
+     * @return bool
+     */
+    private function isHeightDefined()
+    {
+        return !empty($this->configuration->obtainHeight());
+    }
+
+    public function commandWithCrop($imagePath, $newPath)
+    {
+        $w = $this->configuration->obtainWidth();
+        $h = $this->configuration->obtainHeight();
+        $resize = $this->composeResizeOptions($imagePath);
 
         $cmd = $this->configuration->obtainConvertPath() . " " . escapeshellarg($imagePath) . " -resize " . escapeshellarg($resize) .
-            " -quality " . escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
+            " -size " . escapeshellarg($w . "x" . $h) .
+            " xc:" . escapeshellarg($this->configuration->obtainCanvasColor()) .
+            " +swap -gravity center -composite -quality " . escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
 
         return $cmd;
     }
@@ -50,16 +85,16 @@ class ShellCommand
         return $resize;
     }
 
-    private function hasCrop()
-    {
-        return (true === $this->configuration->obtainCrop());
-    }
-
     private function needResize($hasCrop, $isPanoramicImage)
     {
         return
             (!$hasCrop && $isPanoramicImage) ||
             ($hasCrop && !$isPanoramicImage);
+    }
+
+    private function hasCrop()
+    {
+        return (true === $this->configuration->obtainCrop());
     }
 
     public function isPanoramic($imagePath)
@@ -68,16 +103,17 @@ class ShellCommand
         return $width > $height;
     }
 
-    public function commandWithCrop($imagePath, $newPath)
+    private function isScaledDefined()
     {
-        $w = $this->configuration->obtainWidth();
-        $h = $this->configuration->obtainHeight();
-        $resize = $this->composeResizeOptions($imagePath);
+        return true === $this->configuration->obtainScale();
+    }
+
+    public function commandWithScale($imagePath, $newPath)
+    {
+        $resize = $this->composeResizeOptions($imagePath, $this->configuration);
 
         $cmd = $this->configuration->obtainConvertPath() . " " . escapeshellarg($imagePath) . " -resize " . escapeshellarg($resize) .
-            " -size " . escapeshellarg($w . "x" . $h) .
-            " xc:" . escapeshellarg($this->configuration->obtainCanvasColor()) .
-            " +swap -gravity center -composite -quality " . escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
+            " -quality " . escapeshellarg($this->configuration->obtainQuality()) . " " . escapeshellarg($newPath);
 
         return $cmd;
     }
