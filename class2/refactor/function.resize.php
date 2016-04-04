@@ -24,18 +24,8 @@ function isInCache($path, $imagePath) {
 
 
 function doResize($imagePath, $newPath, $configuration) {
-	$shell = new ShellCommand($configuration);
-	$opts = $configuration->asHash();
-	$w = $configuration->obtainWidth();
-	$h = $configuration->obtainHeight();
-	if(!empty($w) and !empty($h)):
-		$cmd = $shell->commandWithCrop($imagePath, $newPath, $configuration);
-		if(true === $opts['scale']):
-			$cmd = $shell->commandWithScale($imagePath, $newPath, $configuration);
-		endif;
-	else:
-		$cmd = $shell->defaultShellCommand($configuration, $imagePath, $newPath);
-	endif;
+	$resizerOptions = new ResizerOptions($configuration);
+	$cmd = $resizerOptions->obtainResizerOption($imagePath,$newPath);
 
 	$c = exec($cmd, $output, $return_code);
 	if($return_code != 0) {
