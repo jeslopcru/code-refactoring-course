@@ -11,22 +11,7 @@ class FunctionResizeTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($expected, sanitize($url));
     }
 
-    public function testIsInCache()
-    {
-        $this->assertFalse(isInCache('', ''));
 
-        $path = $this->root->url();
-        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->at($this->root);
-        $this->assertTrue(isInCache($path, $imageFile->url()));
-
-        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->lastModified(strtotime('tomorrow'))->at($this->root);
-        $this->assertFalse(isInCache($path, $imageFile->url()));
-    }
-    
-    public function setUp()
-    {
-        $this->root = org\bovigo\vfs\vfsStream::setup();
-    }
 }
 
 ?>

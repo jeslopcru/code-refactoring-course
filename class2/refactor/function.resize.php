@@ -8,19 +8,7 @@ function sanitize($path) {
 }
 
 
-function isInCache($path, $imagePath) {
-	$isInCache = false;
-	if(file_exists($path) == true):
-		$isInCache = true;
-		$origFileTime = date("YmdHis",filemtime($imagePath));
-		$newFileTime = date("YmdHis",filemtime($path));
-		if($newFileTime < $origFileTime): 
-			$isInCache = false;
-		endif;
-	endif;
 
-	return $isInCache;
-}
 
 
 function doResize($imagePath, $newPath, $configuration) {
@@ -37,27 +25,24 @@ function doResize($imagePath, $newPath, $configuration) {
 function resize($imagePath,$opts=null){
 
 
-	$path = new UrlImage($imagePath);
 	$configuration = new Configuration($opts);
+	$urlPath = new UrlImage($imagePath);
 
-	$resizer = new Resizer($path, $configuration);
-
-	// This has to go to Configuration as Exception in initialization
-
-	if(empty($configuration->asHash()['output-filename']) && empty($w) && empty($h)) {
+	$resizer = new Resizer($urlPath, $configuration);
+	
+	if(empty($configuration->obtainOutputFilename()) && empty($configuration->obtainWidth()) && empty($configuration->obtainHeight())) {
 		return 'cannot resize the image';
 	}
-
-	// This has to be done in resizer resize
-
+	
 	try {
+		
 		$imagePath = $resizer->obtainFilePath();
 	} catch (Exception $e) {
 		return 'image not found';
 	}
+	$path = new Path($configuration);
 
-
-	$newPath = composeNewPath($imagePath, $configuration);
+	$newPath = $path->composeNewPath($imagePath);
 
     $create = !isInCache($newPath, $imagePath);
 

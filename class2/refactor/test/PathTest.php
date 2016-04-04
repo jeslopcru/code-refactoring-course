@@ -24,9 +24,23 @@ class PathTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testIsInCache()
+    {
+        $path = new Path(new Configuration());
+        $this->assertFalse($path->isInCache('', ''));
+
+        $url = $this->root->url();
+        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->at($this->root);
+        $this->assertTrue($path->isInCache($url, $imageFile->url()));
+
+        $imageFile = org\bovigo\vfs\vfsStream::newFile('image.jpq')->lastModified(strtotime('tomorrow'))->at($this->root);
+        $this->assertFalse($path->isInCache($url, $imageFile->url()));
+    }
+
     public function setUp()
     {
         $this->root = org\bovigo\vfs\vfsStream::setup();
     }
+
 
 }
