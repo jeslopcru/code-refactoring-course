@@ -1,7 +1,7 @@
 <?php
 
 
-class PathTest extends PHPUnit_Framework_TestCase
+class FilePathTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -9,7 +9,7 @@ class PathTest extends PHPUnit_Framework_TestCase
      */
     public function testNecessaryCollaboration()
     {
-        $resizer = new Path('anyNonPathObject');
+        $resizer = new FilePath('anyNonPathObject');
     }
 
     /**
@@ -17,20 +17,20 @@ class PathTest extends PHPUnit_Framework_TestCase
      */
     public function testOptionalCollaboration()
     {
-        $resizer = new Path(new UrlImage(''), 'nonConfigurationObject');
+        $resizer = new FilePath(new UrlImage(''), 'nonConfigurationObject');
     }
 
     public function testInstantiation()
     {
         $options = [Configuration::OUTPUTFILENAME_KEY => 'filename'];
-        $this->assertInstanceOf('Path', new Path(new UrlImage(''), new Configuration($options)));
+        $this->assertInstanceOf('FilePath', new FilePath(new UrlImage(''), new Configuration($options)));
     }
 
     public function testObtainLocallyCachedFilePath()
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
-        $resizer = new Path($imagePath, $configuration);
+        $resizer = new FilePath($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')
             ->getMock();
@@ -50,7 +50,7 @@ class PathTest extends PHPUnit_Framework_TestCase
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
-        $resizer = new Path($imagePath, $configuration);
+        $resizer = new FilePath($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')
             ->getMock();
@@ -69,7 +69,7 @@ class PathTest extends PHPUnit_Framework_TestCase
     public function testCreateNewPath()
     {
         $configuration =  new Configuration([Configuration::OUTPUTFILENAME_KEY => 'filename']);
-        $resizer = new Path(new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler'), $configuration);
+        $resizer = new FilePath(new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler'), $configuration);
     }
 
     /**
@@ -79,7 +79,7 @@ class PathTest extends PHPUnit_Framework_TestCase
     {
         $configuration = new Configuration(array('width' => 800, 'height' => 600));
         $imagePath = new UrlImage('http://martinfowler.com/mf.jpg?query=hello&s=fowler');
-        $resizer = new Path($imagePath, $configuration);
+        $resizer = new FilePath($imagePath, $configuration);
 
         $stub = $this->getMockBuilder('FileSystem')
             ->getMock();

@@ -2,11 +2,8 @@
 
 require_once 'autoload.php';
 
-class Path
+class FilePath
 {
-    /**
-     * @var UrlImage
-     */
     private $path;
     private $configuration;
     private $fileSystem;
@@ -33,9 +30,6 @@ class Path
     private function checkConfiguration($configuration)
     {
         if (!($configuration instanceof Configuration)) {
-            throw new InvalidArgumentException();
-        }
-        if(empty($configuration->obtainOutputFilename()) && empty($configuration->obtainWidth()) && empty($configuration->obtainHeight())) {
             throw new InvalidArgumentException();
         }
     }
