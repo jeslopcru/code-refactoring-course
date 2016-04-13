@@ -10,4 +10,9 @@ Código del curso "Refactoring a patrones" de [https://geekshubsacademy.com](htt
 
 - Clase 2: De procedural a objetos
  - Clase: https://github.com/wes/phpimageresize --> https://github.com/curso-refactoring/phpimageresize
- - Ejercicio: 
+ - Ejercicio: Terminar de refactorizar https://github.com/curso-refactoring/phpimageresize
+
+
+- Clase 3: Reorganizando el código
+ - Clase: https://github.com/curso-refactoring/a2_printer
+ - Ejercicio: https://github.com/curso-refactoring/a2_printer/tree/c53e117ae5da3348dd6fdef9c97f7feb90328b19 en el comit c53e117ae5da3348dd6fdef9c97f7feb90328b19
