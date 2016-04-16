@@ -18,9 +18,10 @@ Código del curso "Refactoring a patrones" de [https://geekshubsacademy.com](htt
 
 - Clase 3: Reorganizando el código
  - Clase: https://github.com/curso-refactoring/a2_printer
- - Ejercicio: https://github.com/curso-refactoring/a2_printer/tree/c53e117ae5da3348dd6fdef9c97f7feb90328b19 en el comit c53e117ae5da3348dd6fdef9c97f7feb90328b19
+ - Ejercicio: Terminar de refactorizar https://github.com/curso-refactoring/a2_printer/tree/c53e117ae5da3348dd6fdef9c97f7feb90328b19 en el comit c53e117ae5da3348dd6fdef9c97f7feb90328b19
 
 ### Módulo 2: Refactorizando a patrones
 
-- Clase 4: 
- - Clase: https://github.com/JodaOrg/joda-time
+- Clase 4: Controlando la creación de objetos
+ - Clase: https://github.com/curso-refactoring/joda-time
+ - Ejercicio: Terminar el refactor aplicandolo  al resto de clases https://github.com/curso-refactoring/joda-time/tree/61f9ea1752cae195f988e44f8da3da5d77cfcfe8
