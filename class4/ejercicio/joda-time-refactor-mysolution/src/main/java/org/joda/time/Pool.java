@@ -8,12 +8,13 @@ public class Pool {
     private HashMap<Integer, Days> days;
     private HashMap<Integer, Hours> hours;
     private HashMap<Integer, Minutes> minutes;
+    private HashMap<Integer, Months> months;
 
     private Pool() {
         this.days = new HashMap<Integer, Days>();
         this.hours = new HashMap<Integer, Hours>();
         this.minutes = new HashMap<Integer, Minutes>();
-
+        this.months = new HashMap<Integer, Months>();
     }
 
     public static Pool getInstance() {
@@ -64,27 +65,47 @@ public class Pool {
         return result;
     }
 
+    public static Months retrieveMonths(int i) {
+        Pool pool = Pool.getInstance();
+
+        Months result = pool.getMonths(i);
+
+        if (result == null) {
+            result = new Months(i);
+            pool.addMonths(i, result);
+        }
+        return result;
+    }
+
     private void addDay(int numeral, Days day) {
         days.put(numeral, day);
-    }
-
-    private void addHours(int i, Hours result) {
-        hours.put(i, result);
-    }
-
-    private void addMinutes(int numeral, Minutes minute) {
-        minutes.put(numeral, minute);
     }
 
     private Days getDays(int numeral) {
         return days.get(numeral);
     }
 
+    private void addHours(int i, Hours result) {
+        hours.put(i, result);
+    }
+
     private Hours getHours(int i) {
         return hours.get(i);
     }
 
+    private void addMinutes(int numeral, Minutes minute) {
+        minutes.put(numeral, minute);
+    }
+
     private Minutes getMinutes(int numeral) {
         return minutes.get(numeral);
+    }
+
+    private void addMonths(int i, Months months) {
+        this.months.put(i, months);
+    }
+
+    private Months getMonths(int i) {
+        return months.get(i);
     }
 }
