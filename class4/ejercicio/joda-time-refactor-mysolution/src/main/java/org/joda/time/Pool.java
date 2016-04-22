@@ -91,12 +91,12 @@ public class Pool {
         return result;
     }
 
-    private void addSeconds(int i, Seconds result) {
-        seconds.put(i,result);
+    private void addSeconds(int i, Seconds second) {
+        this.seconds.put(i,second);
     }
 
-    private Seconds getSeconds(int i) {
-        return seconds.get(i);
+    private Seconds getSeconds(int numeral) {
+        return seconds.get(numeral);
     }
 
     private void addDay(int numeral, Days day) {
@@ -107,12 +107,12 @@ public class Pool {
         return days.get(numeral);
     }
 
-    private void addHours(int i, Hours result) {
-        hours.put(i, result);
+    private void addHours(int numeral, Hours hour) {
+        this.hours.put(numeral, hour);
     }
 
-    private Hours getHours(int i) {
-        return hours.get(i);
+    private Hours getHours(int numeral) {
+        return hours.get(numeral);
     }
 
     private void addMinutes(int numeral, Minutes minute) {
@@ -123,11 +123,11 @@ public class Pool {
         return minutes.get(numeral);
     }
 
-    private void addMonths(int i, Months months) {
-        this.months.put(i, months);
+    private void addMonths(int numeral, Months month) {
+        this.months.put(numeral, month);
     }
 
-    private Months getMonths(int i) {
-        return months.get(i);
+    private Months getMonths(int numeral) {
+        return months.get(numeral);
     }
 }
