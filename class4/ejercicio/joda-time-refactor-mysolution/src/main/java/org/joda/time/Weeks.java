@@ -42,7 +42,7 @@ import org.joda.time.format.PeriodFormatter;
 public final class Weeks extends BaseSingleFieldPeriod {
 
     /** Constant representing zero weeks. */
-    public static final Weeks ZERO = new Weeks(0);
+    public static final Weeks ZERO = Pool.retrieveWeeks(0);
     /** Constant representing one week. */
     public static final Weeks ONE = new Weeks(1);
     /** Constant representing two weeks. */
@@ -194,7 +194,7 @@ public final class Weeks extends BaseSingleFieldPeriod {
      *
      * @param weeks  the number of weeks to represent
      */
-    private Weeks(int weeks) {
+    protected Weeks(int weeks) {
         super(weeks);
     }
 
