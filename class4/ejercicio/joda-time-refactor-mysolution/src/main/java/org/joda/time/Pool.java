@@ -9,12 +9,14 @@ public class Pool {
     private HashMap<Integer, Hours> hours;
     private HashMap<Integer, Minutes> minutes;
     private HashMap<Integer, Months> months;
+    private HashMap<Integer, Seconds> seconds;
 
     private Pool() {
         this.days = new HashMap<Integer, Days>();
         this.hours = new HashMap<Integer, Hours>();
         this.minutes = new HashMap<Integer, Minutes>();
         this.months = new HashMap<Integer, Months>();
+        this.seconds = new HashMap<Integer, Seconds>();
     }
 
     public static Pool getInstance() {
@@ -75,6 +77,26 @@ public class Pool {
             pool.addMonths(i, result);
         }
         return result;
+    }
+
+    public static Seconds retrieveSeconds(int i) {
+        Pool pool = Pool.getInstance();
+
+        Seconds result = pool.getSeconds(i);
+
+        if (result == null) {
+            result = new Seconds(i);
+            pool.addSeconds(i, result);
+        }
+        return result;
+    }
+
+    private void addSeconds(int i, Seconds result) {
+        seconds.put(i,result);
+    }
+
+    private Seconds getSeconds(int i) {
+        return seconds.get(i);
     }
 
     private void addDay(int numeral, Days day) {
