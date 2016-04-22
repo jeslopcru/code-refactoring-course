@@ -55,38 +55,38 @@ public class Pool {
         return result;
     }
 
-    public static Hours retrieveHours(int i) {
+    public static Hours retrieveHours(int numeral) {
         Pool pool = Pool.getInstance();
 
-        Hours result = pool.getHours(i);
+        Hours result = pool.getHours(numeral);
 
         if (result == null) {
-            result = new Hours(i);
-            pool.addHours(i, result);
+            result = new Hours(numeral);
+            pool.addHours(numeral, result);
         }
         return result;
     }
 
-    public static Months retrieveMonths(int i) {
+    public static Months retrieveMonths(int numeral) {
         Pool pool = Pool.getInstance();
 
-        Months result = pool.getMonths(i);
+        Months result = pool.getMonths(numeral);
 
         if (result == null) {
-            result = new Months(i);
-            pool.addMonths(i, result);
+            result = new Months(numeral);
+            pool.addMonths(numeral, result);
         }
         return result;
     }
 
-    public static Seconds retrieveSeconds(int i) {
+    public static Seconds retrieveSeconds(int numeral) {
         Pool pool = Pool.getInstance();
 
-        Seconds result = pool.getSeconds(i);
+        Seconds result = pool.getSeconds(numeral);
 
         if (result == null) {
-            result = new Seconds(i);
-            pool.addSeconds(i, result);
+            result = new Seconds(numeral);
+            pool.addSeconds(numeral, result);
         }
         return result;
     }
