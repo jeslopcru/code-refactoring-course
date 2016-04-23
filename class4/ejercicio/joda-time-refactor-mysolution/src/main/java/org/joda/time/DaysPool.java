@@ -20,11 +20,11 @@ class DaysPool {
 
     Days retrieveDays(int numeral) {
 
-        Days result = this.getDays(numeral);
+        Days result = getDays(numeral);
 
         if (result == null) {
             result = new Days(numeral);
-            this.addDay(numeral, result);
+            addDay(numeral, result);
         }
 
         return result;
