@@ -12,11 +12,11 @@ class HoursPool {
 
     Hours retrieveHours(int numeral) {
 
-        Hours result = this.getHours(numeral);
+        Hours result = getHours(numeral);
 
         if (result == null) {
             result = new Hours(numeral);
-            this.addHours(numeral, result);
+            addHours(numeral, result);
         }
         return result;
     }
