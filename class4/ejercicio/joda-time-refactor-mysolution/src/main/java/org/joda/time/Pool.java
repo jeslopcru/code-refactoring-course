@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Pool {
 
     private static Pool myInstance;
-    private HashMap<Integer, Days> days;
+    private DaysPool days;
     private HashMap<Integer, Hours> hours;
     private HashMap<Integer, Minutes> minutes;
     private HashMap<Integer, Months> months;
@@ -15,7 +15,7 @@ public class Pool {
 
 
     private Pool() {
-        this.days = new HashMap<Integer, Days>();
+        this.days = new DaysPool();
         this.hours = new HashMap<Integer, Hours>();
         this.minutes = new HashMap<Integer, Minutes>();
         this.months = new HashMap<Integer, Months>();
@@ -35,15 +35,7 @@ public class Pool {
 
     public static Days retrieveDays(int numeral) {
         Pool pool = Pool.getInstance();
-
-        Days result = pool.getDays(numeral);
-
-        if (result == null) {
-            result = new Days(numeral);
-            pool.addDay(numeral, result);
-        }
-
-        return result;
+        return pool.days.retrieveDays(numeral);
     }
 
     public static Minutes retrieveMinutes(int numeral) {
@@ -121,7 +113,7 @@ public class Pool {
     }
 
     private void addYears(int numeral, Years years) {
-        this.years.put(numeral,years);
+        this.years.put(numeral, years);
     }
 
     private Years getYears(int numeral) {
@@ -142,14 +134,6 @@ public class Pool {
 
     private Seconds getSeconds(int numeral) {
         return seconds.get(numeral);
-    }
-
-    private void addDay(int numeral, Days day) {
-        days.put(numeral, day);
-    }
-
-    private Days getDays(int numeral) {
-        return days.get(numeral);
     }
 
     private void addHours(int numeral, Hours hour) {
