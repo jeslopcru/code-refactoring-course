@@ -7,7 +7,7 @@ class DaysPool {
     private HashMap<Integer, Days> days;
 
     DaysPool() {
-        this.days = new HashMap<Integer, Days>();
+        days = new HashMap<Integer, Days>();
     }
 
     Days retrieveDays(int numeral) {
