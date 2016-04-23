@@ -10,14 +10,6 @@ class DaysPool {
         this.days = new HashMap<Integer, Days>();
     }
 
-    private void addDay(int numeral, Days day) {
-        days.put(numeral, day);
-    }
-
-    private Days getDays(int numeral) {
-        return days.get(numeral);
-    }
-
     Days retrieveDays(int numeral) {
 
         Days result = getDays(numeral);
@@ -28,6 +20,14 @@ class DaysPool {
         }
 
         return result;
+    }
+
+    private void addDay(int numeral, Days day) {
+        days.put(numeral, day);
+    }
+
+    private Days getDays(int numeral) {
+        return days.get(numeral);
     }
 
 }

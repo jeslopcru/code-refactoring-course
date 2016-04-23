@@ -9,7 +9,7 @@ class Pool {
     private HoursPool hours;
     private MinutesPool minutes;
     private MonthsPool months;
-    private HashMap<Integer, Seconds> seconds;
+    private SecondsPool seconds;
     private HashMap<Integer, Weeks> weeks;
     private HashMap<Integer, Years> years;
 
@@ -19,7 +19,7 @@ class Pool {
         this.hours = new HoursPool();
         this.minutes = new MinutesPool();
         this.months = new MonthsPool();
-        this.seconds = new HashMap<Integer, Seconds>();
+        this.seconds = new SecondsPool();
         this.weeks = new HashMap<Integer, Weeks>();
         this.years = new HashMap<Integer, Years>();
     }
@@ -55,14 +55,7 @@ class Pool {
 
     static Seconds retrieveSeconds(int numeral) {
         Pool pool = Pool.getInstance();
-
-        Seconds result = pool.getSeconds(numeral);
-
-        if (result == null) {
-            result = new Seconds(numeral);
-            pool.addSeconds(numeral, result);
-        }
-        return result;
+        return pool.seconds.retrieveSeconds(numeral);
     }
 
     static Weeks retrieveWeeks(int numeral) {
@@ -103,13 +96,5 @@ class Pool {
 
     private Weeks getWeeks(int numeral) {
         return weeks.get(numeral);
-    }
-
-    private void addSeconds(int numeral, Seconds second) {
-        this.seconds.put(numeral, second);
-    }
-
-    private Seconds getSeconds(int numeral) {
-        return seconds.get(numeral);
     }
 }
