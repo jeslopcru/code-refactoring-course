@@ -21,7 +21,7 @@ class HoursPool {
         return result;
     }
     private void addHours(int numeral, Hours hour) {
-        this.hours.put(numeral, hour);
+        hours.put(numeral, hour);
     }
 
     private Hours getHours(int numeral) {
