@@ -2,11 +2,11 @@ package org.joda.time;
 
 import java.util.HashMap;
 
-public class Pool {
+class Pool {
 
     private static Pool myInstance;
     private DaysPool days;
-    private HashMap<Integer, Hours> hours;
+    private HoursPool hours;
     private HashMap<Integer, Minutes> minutes;
     private HashMap<Integer, Months> months;
     private HashMap<Integer, Seconds> seconds;
@@ -16,7 +16,7 @@ public class Pool {
 
     private Pool() {
         this.days = new DaysPool();
-        this.hours = new HashMap<Integer, Hours>();
+        this.hours = new HoursPool();
         this.minutes = new HashMap<Integer, Minutes>();
         this.months = new HashMap<Integer, Months>();
         this.seconds = new HashMap<Integer, Seconds>();
@@ -33,12 +33,17 @@ public class Pool {
         return myInstance;
     }
 
-    public static Days retrieveDays(int numeral) {
+    static Days retrieveDays(int numeral) {
         Pool pool = Pool.getInstance();
         return pool.days.retrieveDays(numeral);
     }
 
-    public static Minutes retrieveMinutes(int numeral) {
+    static Hours retrieveHours(int numeral) {
+        Pool pool = Pool.getInstance();
+        return pool.hours.retrieveHours(numeral);
+    }
+
+    static Minutes retrieveMinutes(int numeral) {
 
         Pool pool = Pool.getInstance();
 
@@ -52,19 +57,7 @@ public class Pool {
         return result;
     }
 
-    public static Hours retrieveHours(int numeral) {
-        Pool pool = Pool.getInstance();
-
-        Hours result = pool.getHours(numeral);
-
-        if (result == null) {
-            result = new Hours(numeral);
-            pool.addHours(numeral, result);
-        }
-        return result;
-    }
-
-    public static Months retrieveMonths(int numeral) {
+    static Months retrieveMonths(int numeral) {
         Pool pool = Pool.getInstance();
 
         Months result = pool.getMonths(numeral);
@@ -76,7 +69,7 @@ public class Pool {
         return result;
     }
 
-    public static Seconds retrieveSeconds(int numeral) {
+    static Seconds retrieveSeconds(int numeral) {
         Pool pool = Pool.getInstance();
 
         Seconds result = pool.getSeconds(numeral);
@@ -88,7 +81,7 @@ public class Pool {
         return result;
     }
 
-    public static Weeks retrieveWeeks(int numeral) {
+    static Weeks retrieveWeeks(int numeral) {
         Pool pool = Pool.getInstance();
 
         Weeks result = pool.getWeeks(numeral);
@@ -100,7 +93,7 @@ public class Pool {
         return result;
     }
 
-    public static Years retrieveYears(int numeral) {
+    static Years retrieveYears(int numeral) {
         Pool pool = Pool.getInstance();
 
         Years result = pool.getYears(numeral);
@@ -134,14 +127,6 @@ public class Pool {
 
     private Seconds getSeconds(int numeral) {
         return seconds.get(numeral);
-    }
-
-    private void addHours(int numeral, Hours hour) {
-        this.hours.put(numeral, hour);
-    }
-
-    private Hours getHours(int numeral) {
-        return hours.get(numeral);
     }
 
     private void addMinutes(int numeral, Minutes minute) {
