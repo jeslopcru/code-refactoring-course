@@ -2,11 +2,11 @@ package org.joda.time;
 
 import java.util.HashMap;
 
-public class DaysPool {
+class DaysPool {
 
     private HashMap<Integer, Days> days;
 
-    protected DaysPool() {
+    DaysPool() {
         this.days = new HashMap<Integer, Days>();
     }
 
@@ -18,7 +18,7 @@ public class DaysPool {
         return days.get(numeral);
     }
 
-    protected Days retrieveDays(int numeral) {
+    Days retrieveDays(int numeral) {
 
         Days result = this.getDays(numeral);
 
