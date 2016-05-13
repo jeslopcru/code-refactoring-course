@@ -25,3 +25,7 @@ Código del curso "Refactoring a patrones" de [https://geekshubsacademy.com](htt
 - Clase 4: Controlando la creación de objetos
  - Clase: https://github.com/curso-refactoring/joda-time
  - Ejercicio: Terminar el refactor aplicandolo  al resto de clases https://github.com/curso-refactoring/joda-time/tree/61f9ea1752cae195f988e44f8da3da5d77cfcfe8
+
+ - Clase 5: Extrayendo nuevas abstracciones
+ - Clase: https://github.com/curso-refactoring/joda-time
+ - Ejercicio: https://github.com/curso-refactoring/joda-time
