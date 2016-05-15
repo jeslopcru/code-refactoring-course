@@ -28,4 +28,4 @@ Código del curso "Refactoring a patrones" de [https://geekshubsacademy.com](htt
 
  - Clase 5: Extrayendo nuevas abstracciones
  - Clase: https://github.com/curso-refactoring/joda-time
- - Ejercicio: https://github.com/curso-refactoring/joda-time
+ - Ejercicio: DateTimeZone(cProvider): https://github.com/curso-refactoring/joda-time
