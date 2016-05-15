@@ -18,12 +18,33 @@ public class DateTimeZoneProvider {
     private static final AtomicReference<Provider> cProvider =
             new AtomicReference<Provider>();
 
-    private static final AtomicReference<NameProvider> cNameProvider =
+    private static final AtomicReference<NameProvider> cName =
             new AtomicReference<NameProvider>();
 
     private static final AtomicReference<DateTimeZone> cDefault =
             new AtomicReference<DateTimeZone>();
 
+    private static NameProvider getDefaultNameProvider() {
+        NameProvider nameProvider = null;
+        try {
+            String providerClass = System.getProperty("org.joda.time.DateTimeZone.NameProvider");
+            if (providerClass != null) {
+                try {
+                    nameProvider = (NameProvider) Class.forName(providerClass).newInstance();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } catch (SecurityException ex) {
+            // ignore
+        }
+
+        if (nameProvider == null) {
+            nameProvider = new DefaultNameProvider();
+        }
+
+        return nameProvider;
+    }
 
     public DateTimeZone byDefault() {
 
@@ -67,7 +88,7 @@ public class DateTimeZoneProvider {
     private DateTimeZone obtainForId() {
         DateTimeZone zone = null;
         String id = System.getProperty("user.timezone");
-        if (id != null) {  // null check avoids stack overflow
+        if (!isNull(id)) {
             try {
                 zone = forID(id);
             } catch (RuntimeException ex) {
@@ -78,7 +99,7 @@ public class DateTimeZoneProvider {
     }
 
     public void setByDefault(DateTimeZone zone) {
-        checkPermission();
+        checkPermission("DateTimeZone.setDefault");
         checkNull(zone);
         cDefault.set(zone);
     }
@@ -89,58 +110,35 @@ public class DateTimeZoneProvider {
         }
     }
 
-    private void checkPermission() {
+    private void checkPermission(String name) {
         SecurityManager sm = System.getSecurityManager();
         if (sm != null) {
-            sm.checkPermission(new JodaTimePermission("DateTimeZone.setDefault"));
+            sm.checkPermission(new JodaTimePermission(name));
         }
     }
-
 
     public NameProvider name() {
-        NameProvider nameProvider = cNameProvider.get();
+        NameProvider nameProvider = cName.get();
         if (isNull(nameProvider)) {
-            nameProvider = getDefaultNameProvider();
-            if (!cNameProvider.compareAndSet(null, nameProvider)) {
-                nameProvider = cNameProvider.get();
-            }
+            nameProvider = updateName(getDefaultNameProvider());
         }
         return nameProvider;
     }
 
+    private NameProvider updateName(NameProvider nameProvider) {
+        if (!cName.compareAndSet(null, nameProvider)) {
+            nameProvider = cName.get();
+        }
+        return nameProvider;
+    }
 
     public void setName(NameProvider name) {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new JodaTimePermission("DateTimeZone.setNameProvider"));
-        }
-        if (name == null) {
+        checkPermission("DateTimeZone.setNameProvider");
+
+        if (isNull(name)) {
             name = getDefaultNameProvider();
         }
-        cNameProvider.set(name);
-    }
-
-
-    private static NameProvider getDefaultNameProvider() {
-        NameProvider nameProvider = null;
-        try {
-            String providerClass = System.getProperty("org.joda.time.DateTimeZone.NameProvider");
-            if (providerClass != null) {
-                try {
-                    nameProvider = (NameProvider) Class.forName(providerClass).newInstance();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        } catch (SecurityException ex) {
-            // ignore
-        }
-
-        if (nameProvider == null) {
-            nameProvider = new DefaultNameProvider();
-        }
-
-        return nameProvider;
+        cName.set(name);
     }
 
 }
