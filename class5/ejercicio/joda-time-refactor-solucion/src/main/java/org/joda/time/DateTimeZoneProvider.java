@@ -1,10 +1,10 @@
 package org.joda.time;
 
 
-import org.joda.time.tz.DefaultNameProvider;
-import org.joda.time.tz.NameProvider;
-import org.joda.time.tz.Provider;
+import org.joda.time.tz.*;
 
+import java.io.File;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -44,6 +44,60 @@ public class DateTimeZoneProvider {
         }
 
         return nameProvider;
+    }
+
+    private static Provider getDefaultProvider() {
+        // approach 1
+        try {
+            String providerClass = System.getProperty("org.joda.time.DateTimeZone.Provider");
+            if (providerClass != null) {
+                try {
+                    Provider provider = (Provider) Class.forName(providerClass).newInstance();
+                    return validateProvider(provider);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } catch (SecurityException ex) {
+            // ignored
+        }
+        // approach 2
+        try {
+            String dataFolder = System.getProperty("org.joda.time.DateTimeZone.Folder");
+            if (dataFolder != null) {
+                try {
+                    Provider provider = new ZoneInfoProvider(new File(dataFolder));
+                    return validateProvider(provider);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } catch (SecurityException ex) {
+            // ignored
+        }
+        // approach 3
+        try {
+            Provider provider = new ZoneInfoProvider("org/joda/time/tz/data");
+            return validateProvider(provider);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        // approach 4
+        return new UTCProvider();
+    }
+
+    private static Provider validateProvider(Provider provider) {
+        Set<String> ids = provider.getAvailableIDs();
+        if (ids == null || ids.size() == 0) {
+            throw new IllegalArgumentException("The provider doesn't have any available ids");
+        }
+        if (!ids.contains("UTC")) {
+            throw new IllegalArgumentException("The provider doesn't support UTC");
+        }
+        if (!UTC.equals(provider.getZone("UTC"))) {
+            throw new IllegalArgumentException("Invalid UTC zone provided");
+        }
+        return provider;
     }
 
     public DateTimeZone byDefault() {
@@ -141,4 +195,30 @@ public class DateTimeZoneProvider {
         cName.set(name);
     }
 
+    public void setProvider(Provider provider) {
+        checkPermission("DateTimeZone.setProvider");
+
+        if (isNull(provider)) {
+            provider = getDefaultProvider();
+        } else {
+            validateProvider(provider);
+        }
+        cProvider.set(provider);
+    }
+
+    public Provider provider() {
+        Provider provider = cProvider.get();
+        if (isNull(provider)) {
+            provider = updateProvider(getDefaultProvider());
+        }
+        return provider;
+    }
+
+    private Provider updateProvider(Provider provider) {
+        if (!cProvider.compareAndSet(null, provider)) {
+            provider = cProvider.get();
+        }
+        return provider;
+    }
 }
+
