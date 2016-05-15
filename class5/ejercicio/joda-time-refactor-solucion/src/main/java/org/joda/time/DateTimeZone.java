@@ -115,18 +115,6 @@ public abstract class DateTimeZone implements Serializable {
      */
     private static final AtomicReference<Provider> cProvider =
                     new AtomicReference<Provider>();
-    /**
-     * The instance that is providing time zone names.
-     * This is lazily initialized to reduce risks of race conditions at startup.
-     */
-    private static final AtomicReference<NameProvider> cNameProvider =
-                    new AtomicReference<NameProvider>();
-    /**
-     * The default time zone.
-     * This is lazily initialized to reduce risks of race conditions at startup.
-     */
-    private static final AtomicReference<DateTimeZone> cDefault =
-                    new AtomicReference<DateTimeZone>();
 
     private static final DateTimeZoneProvider provider = new DateTimeZoneProvider();
 
@@ -501,14 +489,7 @@ public abstract class DateTimeZone implements Serializable {
      * @return the provider
      */
     public static NameProvider getNameProvider() {
-        NameProvider nameProvider = cNameProvider.get();
-        if (nameProvider == null) {
-            nameProvider = getDefaultNameProvider();
-            if (!cNameProvider.compareAndSet(null, nameProvider)) {
-                nameProvider = cNameProvider.get();
-            }
-        }
-        return nameProvider;
+        return  provider.name();
     }
 
     /**
@@ -522,44 +503,7 @@ public abstract class DateTimeZone implements Serializable {
      * @throws IllegalArgumentException if the provider is invalid
      */
     public static void setNameProvider(NameProvider nameProvider) throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) {
-            sm.checkPermission(new JodaTimePermission("DateTimeZone.setNameProvider"));
-        }
-        if (nameProvider == null) {
-            nameProvider = getDefaultNameProvider();
-        }
-        cNameProvider.set(nameProvider);
-    }
-
-    /**
-     * Gets the default name provider.
-     * <p>
-     * Tries the system property <code>org.joda.time.DateTimeZone.NameProvider</code>.
-     * Then uses <code>DefaultNameProvider</code>.
-     * 
-     * @return the default name provider
-     */
-    private static NameProvider getDefaultNameProvider() {
-        NameProvider nameProvider = null;
-        try {
-            String providerClass = System.getProperty("org.joda.time.DateTimeZone.NameProvider");
-            if (providerClass != null) {
-                try {
-                    nameProvider = (NameProvider) Class.forName(providerClass).newInstance();
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        } catch (SecurityException ex) {
-            // ignore
-        }
-
-        if (nameProvider == null) {
-            nameProvider = new DefaultNameProvider();
-        }
-
-        return nameProvider;
+        provider.setName(nameProvider);
     }
 
     //-----------------------------------------------------------------------

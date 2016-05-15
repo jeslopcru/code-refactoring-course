@@ -1,6 +1,7 @@
 package org.joda.time;
 
 
+import org.joda.time.tz.DefaultNameProvider;
 import org.joda.time.tz.NameProvider;
 import org.joda.time.tz.Provider;
 
@@ -59,8 +60,8 @@ public class DateTimeZoneProvider {
         return zone;
     }
 
-    private boolean isNull(DateTimeZone zone) {
-        return zone == null;
+    private boolean isNull(Object value) {
+        return value == null;
     }
 
     private DateTimeZone obtainForId() {
@@ -94,4 +95,52 @@ public class DateTimeZoneProvider {
             sm.checkPermission(new JodaTimePermission("DateTimeZone.setDefault"));
         }
     }
+
+
+    public NameProvider name() {
+        NameProvider nameProvider = cNameProvider.get();
+        if (isNull(nameProvider)) {
+            nameProvider = getDefaultNameProvider();
+            if (!cNameProvider.compareAndSet(null, nameProvider)) {
+                nameProvider = cNameProvider.get();
+            }
+        }
+        return nameProvider;
+    }
+
+
+    public void setName(NameProvider name) {
+        SecurityManager sm = System.getSecurityManager();
+        if (sm != null) {
+            sm.checkPermission(new JodaTimePermission("DateTimeZone.setNameProvider"));
+        }
+        if (name == null) {
+            name = getDefaultNameProvider();
+        }
+        cNameProvider.set(name);
+    }
+
+
+    private static NameProvider getDefaultNameProvider() {
+        NameProvider nameProvider = null;
+        try {
+            String providerClass = System.getProperty("org.joda.time.DateTimeZone.NameProvider");
+            if (providerClass != null) {
+                try {
+                    nameProvider = (NameProvider) Class.forName(providerClass).newInstance();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        } catch (SecurityException ex) {
+            // ignore
+        }
+
+        if (nameProvider == null) {
+            nameProvider = new DefaultNameProvider();
+        }
+
+        return nameProvider;
+    }
+
 }
