@@ -4,7 +4,6 @@ var assert = require('assert');
 var Unit = require('../../lib/type/Unit');
 var Complex = require('../../lib/type/Complex');
 
-
 describe('Complex', function () {
 
   assertComplex = function(complex, re, im) {
@@ -137,9 +136,9 @@ describe('Complex', function () {
       assertComplex(Complex.parse('2 +3i'), 2, 3);
       assertComplex(Complex.parse('2+3i'), 2, 3);
       assertComplex(Complex.parse(' 2+3i '), 2, 3);
+
       assertComplex(Complex.parse('2-3i'), 2, -3);
       assertComplex(Complex.parse('2 + i'), 2, 1);
-      
       assertComplex(Complex.parse('-2-3i'), -2, - 3);
       assertComplex(Complex.parse('-2+3i'), -2, 3);
       assertComplex(Complex.parse('-2+-3i'), -2, -3);
